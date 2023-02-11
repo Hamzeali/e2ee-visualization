@@ -385,7 +385,8 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = 0.17;
-                        messageText = AppLocalizations.of(context)!.bobIntro;
+                        // messageText = AppLocalizations.of(context)!.bobIntro;
+                        messageText = 'test';
                       }
                       // Eve
                       else if (cnt == 3) {
@@ -393,13 +394,15 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = -0.02;
-                        messageText = AppLocalizations.of(context)!.eveIntro;
+                        // messageText = AppLocalizations.of(context)!.eveIntro;
+                        messageText = 'test';
                       } else if (cnt == 4) {
                         containerLeft = 0.37;
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = 0.17;
-                        messageText = AppLocalizations.of(context)!.appDesc0;
+                        // messageText = AppLocalizations.of(context)!.appDesc0;
+                        messageText = 'test';
                       }
                       // Alice
                       else if (cnt == 5) {
@@ -407,44 +410,51 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                         containerWidth = 0.6;
                         contaienrSec = 1000;
                         xShape = -0.22;
-                        messageText = AppLocalizations.of(context)!.appDesc1;
+                        // messageText = AppLocalizations.of(context)!.appDesc1;
+                        messageText = 'test';
                       } else if (cnt == 6) {
                         containerLeft = 0.37;
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = 0.17;
-                        messageText = AppLocalizations.of(context)!.appDesc2;
+                        // messageText = AppLocalizations.of(context)!.appDesc2;
+                        messageText = 'test';
                       } else if (cnt == 7) {
                         containerLeft = 0.07;
                         containerWidth = 0.6;
                         contaienrSec = 1000;
                         xShape = -0.22;
-                        messageText = AppLocalizations.of(context)!.firstScene;
+                        // messageText = AppLocalizations.of(context)!.firstScene;
+                        messageText = 'test';
                       } else if (cnt == 8) {
                         containerLeft = 0.25;
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = -0.02;
-                        messageText = AppLocalizations.of(context)!.secondScene;
+                        // messageText = AppLocalizations.of(context)!.secondScene;
+                        messageText = 'test';
                       } else if (cnt == 9) {
                         containerLeft = 0.07;
                         containerWidth = 0.6;
                         contaienrSec = 1000;
                         xShape = -0.22;
-                        messageText = AppLocalizations.of(context)!.thirdScene;
+                        // messageText = AppLocalizations.of(context)!.thirdScene;
+                        messageText = 'test';
                       } else if (cnt == 10) {
                         containerLeft = 0.37;
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = 0.17;
-                        messageText = AppLocalizations.of(context)!.fourthScene;
+                        // messageText = AppLocalizations.of(context)!.fourthScene;
+                        messageText = 'test';
                       } else if (cnt == 11) {
                         isTouchEnabled = false;
                         containerLeft = 0.25;
                         containerWidth = 0.55;
                         contaienrSec = 1000;
                         xShape = -0.02;
-                        messageText = AppLocalizations.of(context)!.sceneStart1;
+                        // messageText = AppLocalizations.of(context)!.sceneStart1;
+                        messageText = 'test';
                         timer = Timer(const Duration(seconds: 6), () {
                           setState(() {
                             isTextVisible = false;
@@ -542,9 +552,10 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                           containerWidth = 0.6;
                                           contaienrSec = 500;
                                           xShape = -0.22;
-                                          messageText =
-                                              AppLocalizations.of(context)!
-                                                  .aliceIntro;
+                                          // messageText =
+                                          //     AppLocalizations.of(context)!
+                                          //         .aliceIntro;
+                                          messageText = 'test';
                                         }
                                         isClicked = true;
                                       },
@@ -568,7 +579,8 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                   ),
                                   child: FittedBox(
                                     child: Text(
-                                      AppLocalizations.of(context)!.introStart,
+                                      // AppLocalizations.of(context)!.introStart,
+                                      'test',
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   ),
@@ -658,7 +670,8 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                   ),
                                   child: FittedBox(
                                     child: Text(
-                                      AppLocalizations.of(context)!.sceneStart2,
+                                      // AppLocalizations.of(context)!.sceneStart2,
+                                      'test',
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   ),

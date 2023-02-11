@@ -94,7 +94,8 @@ class HomePageE2EEState extends State<HomePageE2EE>
         Showcase(
           showArrow: false,
           key: menuKey,
-          description: AppLocalizations.of(context)!.readDHKE,
+          // description: AppLocalizations.of(context)!.readDHKE,
+          description: 'What is E2EE',
           descTextStyle: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -109,9 +110,10 @@ class HomePageE2EEState extends State<HomePageE2EE>
             itemBuilder: (context) {
               return [
                 PopupMenuItem<int>(
-                  value: 0,
-                  child: Text(AppLocalizations.of(context)!.dhke),
-                ),
+                    value: 0,
+                    child: Text(
+                        'What is E2EE?') //AppLocalizations.of(context)!.dhke),
+                    ),
               ];
             },
             onSelected: (value) {
@@ -131,12 +133,12 @@ class HomePageE2EEState extends State<HomePageE2EE>
             fit: BoxFit.fitWidth,
             child: Text(
               tabIndex == 0
-                  ? AppLocalizations.of(context)!.slide1
+                  ? 'Scene 1' //AppLocalizations.of(context)!.slide1
                   : tabIndex == 1
-                      ? AppLocalizations.of(context)!.slide2
+                      ? 'Scene 2' //AppLocalizations.of(context)!.slide2
                       : tabIndex == 2
-                          ? AppLocalizations.of(context)!.slide3
-                          : AppLocalizations.of(context)!.slide4,
+                          ? 'Scene 3' //AppLocalizations.of(context)!.slide3
+                          : 'Scene 4', //AppLocalizations.of(context)!.slide4,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

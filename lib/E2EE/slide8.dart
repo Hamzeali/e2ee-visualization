@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +14,11 @@ import 'home-page-E2EE.dart';
 import 'positioned-widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Slide3 extends StatefulWidget {
-  const Slide3({super.key});
+class Slide8 extends StatefulWidget {
+  const Slide8({super.key});
 
   @override
-  Slide3State createState() => Slide3State();
+  Slide8State createState() => Slide8State();
 }
 
 bool switchOldValue = false;
@@ -31,6 +30,8 @@ String locale = 'de';
 final scrollController = ScrollController();
 List isLastIndex = [false, true];
 //-------------------------------
+bool greyMessageVisibility = true;
+bool certificateVisibility = true;
 String dropdownValue = 'Deutsch';
 var settingsVideoButton = 0.13;
 var settingsStopButton = 0.13;
@@ -39,10 +40,13 @@ var backToZero = 0;
 var checkSettingsDuration = 0;
 var isSettingsPressed = 0;
 var settingsButtonDuration = 0;
+bool redLine = false;
 bool greenLine = false;
+bool delay = true;
+bool resetVisibility = true;
 var malloryOpacity = 1.0;
-var whiteMessageOpacity = 0.0;
-var messageLastIndexProblem = 0;
+var greyMessageOpacity = 0.0;
+var envelopeOpacity = 0.0;
 /*
  * priority between the both servers at the bottom
  */
@@ -51,26 +55,29 @@ int descIndex = -1;
 int containerSeconds = 0;
 int isPressedUp = 0;
 int isPressedDown = 0;
+var greenServerPath = 'assets/green_server.jpeg';
+bool notificationVisibility = false;
+List cipherPaths = [
+  'assets/top-left-cipher.jpeg',
+  'assets/top-right-cipher.jpeg',
+  'assets/bottom-left-cipher.jpeg',
+  'assets/bottom-right-cipher.jpeg'
+];
+List cipherVisibility = [true, false, false];
+List cipherOpacity = [1.0, 0.0, 0.0];
 int checkVisibility = 0;
 List stepsVisibility = [true, false];
-
-bool redLine = false;
 var timerProblem = 0;
-/*
- * priority between (Alice and middle-left server)
- * and (middle-left server and left-bottom server)
- */
-bool priority2 = true;
 var seconds = Global.slider;
-List messagePosition = [0.09, 0.01];
-List whiteMessagePosition = [0.875, 0.01];
-var indexVisibilitySlide3 = -1;
-bool messageVisibility = false;
+List greyMessagePosition = [0.09, 0.01];
+List whiteMessagePosition = [0.875, 0.001];
+List certificatePosition = [0.1, 0.04];
+List envelopePosition = [0.088, 0.08];
+var indexVisibilitySlide8 = -1;
 List contentVisibility = [];
 List malloryAndTargetVisibility = [];
-List cipherVisibility = [false, false];
 List lineColor = [];
-double messageOpacity = 0.0;
+double certificateOpacity = 0.0;
 bool dropButton = false;
 bool desc = true;
 bool descVisbility = desc;
@@ -78,33 +85,22 @@ String text = '';
 bool videoButton = true;
 bool settingButton = true;
 var timerSeconds = 3;
-Timer leftCipherTimer = Timer(Duration(seconds: 1), () {});
-Timer rightCipherTimer = Timer(Duration(seconds: 1), () {});
-Timer lineTimer = Timer(Duration(seconds: 1), () {});
-Timer leftCipherVideoTimer = Timer(Duration(seconds: 1), () {});
-Timer rightCipherVideoTimer = Timer(Duration(seconds: 1), () {});
-Timer lineVideoTimer = Timer(Duration(seconds: 1), () {});
-late Timer timerSlide3 = Timer(Duration(seconds: 1), () {});
-late Timer videoTimerSlide3 =
+Timer greenServerTimer = Timer(Duration(seconds: 1), () {});
+Timer greenServerVideoTimer = Timer(Duration(seconds: 1), () {});
+Timer videoTimerVariable = Timer(Duration(seconds: 1), () {});
+Timer timerSlide8 = Timer(Duration(seconds: 1), () {});
+Timer envelopTimer = Timer(Duration(seconds: 1), () {});
+Timer videoTimerSlide8 =
     Timer.periodic(Duration(seconds: Global.slider), (videoTimer) {});
-List serverPath = [
-  'assets/red_server.jpeg',
-  'assets/red_server.jpeg',
-  'assets/red_server.jpeg',
-  'assets/red_server.jpeg'
-];
-List cipherPath = [
-  'assets/cipher-left.jpeg',
-  'assets/cipher-right.jpeg',
-];
+String notificationPath = 'assets/notification.jpeg';
 //---------------
 TextEditingController pageController1 = TextEditingController()
-  ..text = (indexVisibilitySlide3 + 1).toString();
+  ..text = (indexVisibilitySlide8 + 1).toString();
 Timer pageNumberTimer = Timer(Duration(seconds: seconds), () {});
 Timer finishTimer =
     Timer.periodic(Duration(seconds: Global.slider), (finish) {});
 
-class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
+class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -115,56 +111,73 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
       malloryAndTargetVisibility.add(true);
     }
     for (var i = 0; i < 6; i++) {
-      lineColor.add(Colors.red);
+      lineColor.add(Colors.green);
     }
   }
 
   @override
   // ignore: must_call_super
   void dispose() {
-    videoTimerSlide3.cancel();
-    timerSlide3.cancel();
-    leftCipherTimer.cancel();
-    rightCipherTimer.cancel();
-    lineTimer.cancel();
-    leftCipherVideoTimer.cancel();
-    rightCipherVideoTimer.cancel();
-    lineVideoTimer.cancel();
+    greenServerTimer.cancel();
+    greenServerVideoTimer.cancel();
+    videoTimerSlide8.cancel();
+    timerSlide8.cancel();
+    videoTimerVariable.cancel();
+    videoTimerSlide8.cancel();
+    envelopTimer.cancel();
     pageNumberTimer.cancel();
     finishTimer.cancel();
-    videoButton = true;
-
     contentVisibility.clear();
     malloryAndTargetVisibility.clear();
     lineColor.clear();
-
-    pageController1 = TextEditingController()..text = (0).toString();
-
+    switchOldValue = false;
+    scaleEnabledOldVal = false;
+    sliderOldValue = 0;
+    valOldValue = 0;
+    languageOldValue = true;
     isLastIndex = [false, true];
-
-    cipherVisibility[0] = false;
-    cipherVisibility[1] = false;
-    whiteMessagePosition[0] = 0.875;
-    whiteMessagePosition[1] = 0.01;
-    whiteMessageOpacity = 0.0;
-    messagePosition[0] = 0.09;
-    messagePosition[1] = 0.01;
-    indexVisibilitySlide3 = -1;
-    messageOpacity = 0.0;
-    seconds = 0;
-    text = '';
-    desc = true;
-    descVisbility = desc;
-    containerSeconds = 0;
-    descIndex = -1;
-    dropButton = false;
+    pageController1 = TextEditingController()..text = (0).toString();
+    resetVisibility = true;
+    greyMessageVisibility = true;
+    certificateVisibility = true;
     stepsVisibility = [true, false];
-    timerProblem = 0;
-    messageLastIndexProblem = 0;
     settingsVideoButton = 0.13;
     settingsStopButton = 0.13;
     advancedSettingsButton = 0.13;
+    backToZero = 0;
+    checkSettingsDuration = 0;
+    isSettingsPressed = 0;
+    settingsButtonDuration = 0;
+    redLine = false;
+    greenLine = false;
+    delay = true;
+    malloryOpacity = 1.0;
+    greyMessageOpacity = 0.0;
+    envelopeOpacity = 0.0;
+    priority = [true, true];
+    descIndex = -1;
+    containerSeconds = 0;
+    isPressedUp = 0;
+    isPressedDown = 0;
+    notificationVisibility = false;
+    cipherVisibility = [true, false, false];
+    cipherOpacity = [1.0, 0.0, 0.0];
+    checkVisibility = 0;
+    timerProblem = 0;
+    greyMessagePosition = [0.09, 0.01];
+    whiteMessagePosition = [0.875, 0.001];
+    certificatePosition = [0.1, 0.04];
+    envelopePosition = [0.088, 0.08];
+    indexVisibilitySlide8 = -1;
+    certificateOpacity = 0.0;
+    dropButton = false;
+    desc = true;
+    descVisbility = desc;
+    text = '';
+    videoButton = true;
     settingButton = true;
+    timerSeconds = 3;
+
     super.dispose();
   }
 
@@ -202,98 +215,95 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
               openDialog(false);
               pageNumberTimer.cancel();
             }
-            if (indexVisibilitySlide3 == a) {
+            if (indexVisibilitySlide8 == a) {
               pageNumberTimer.cancel();
             } else {
-              if (!redLine &&
-                  indexVisibilitySlide3 < a &&
-                  contentVisibility[0] == true) {
-                indexVisibilitySlide3++;
-                if (indexVisibilitySlide3 >= 0) {
-                  isLastIndex[1] = false;
-                }
+              if (indexVisibilitySlide8 < 10 &&
+                  contentVisibility[0] == true &&
+                  delay) {
+                indexVisibilitySlide8++;
                 pageController1 = TextEditingController()
-                  ..text = (indexVisibilitySlide3 + 1).toString();
-                if (indexVisibilitySlide3 == 11) {
-                  isLastIndex[0] = true;
-                }
+                  ..text = (indexVisibilitySlide8 + 1).toString();
                 stepsVisibility[0] = !stepsVisibility[0];
                 stepsVisibility[1] = !stepsVisibility[1];
-                if (indexVisibilitySlide3 == 0) redLine = true;
+                if (indexVisibilitySlide8 == 10) {
+                  isLastIndex[0] = true;
+                }
               }
-
-              if (indexVisibilitySlide3 == 0 && contentVisibility[0] == true) {
-                contentVisibility[indexVisibilitySlide3] = false;
-                lineTimer = Timer(
-                  Duration(seconds: 1),
-                  () {
-                    setState(
-                      () {
-                        lineColor[0] = Colors.green;
-                        print(indexVisibilitySlide3);
-                        contentVisibility[indexVisibilitySlide3] = true;
-                        redLine = false;
-                        greenLine = true;
-                      },
-                    );
-                  },
-                );
-                seconds = 1;
+              if (indexVisibilitySlide8 > -1) {
+                isLastIndex[1] = false;
               }
-              if (indexVisibilitySlide3 == 1) {
-                whiteMessageOpacity = 1.0;
-              } else if (indexVisibilitySlide3 == 2) {
-                leftCipherTimer = Timer(
-                  Duration(seconds: 1),
-                  () {
-                    setState(
-                      () {
-                        cipherVisibility[0] = true;
-                      },
-                    );
-                  },
-                );
+              if (indexVisibilitySlide8 == 0) {
+                greyMessageOpacity = 1.0;
+              } else if (indexVisibilitySlide8 == 1) {
+                certificateOpacity = 1.0;
+              } else if (indexVisibilitySlide8 == 2) {
+                envelopeOpacity = 1.0;
+              } else if (indexVisibilitySlide8 == 3 && delay) {
+                greyMessagePosition[1] = envelopePosition[1];
+                certificatePosition[1] = 0.11;
+                delay = false;
+                envelopTimer = Timer(Duration(seconds: seconds), () {
+                  setState(() {
+                    delay = true;
+                  });
+                });
+              } else if (indexVisibilitySlide8 == 4) {
+                greyMessageVisibility = false;
+                certificateVisibility = false;
+                envelopePosition[0] = 0.28;
+                envelopePosition[1] = 0.41;
+                cipherVisibility[2] = true;
+                cipherOpacity[2] = 1.0;
+              } else if (indexVisibilitySlide8 == 5) {
+                envelopePosition[0] = 0.64;
+                envelopePosition[1] = 0.52;
+                cipherVisibility[1] = true;
+                cipherOpacity[1] = 1.0;
+              } else if (indexVisibilitySlide8 == 6) {
+                envelopePosition[0] = 0.74;
+                envelopePosition[1] = 0.15;
+              } else if (indexVisibilitySlide8 == 7 && delay) {
+                envelopePosition[0] = 0.8725;
+                envelopePosition[1] = 0.08;
+                greyMessagePosition[0] = 0.875;
+                greyMessagePosition[1] = 0.08;
+                certificatePosition[0] = 0.885;
+                certificatePosition[1] = 0.11;
+                delay = false;
+                envelopTimer = Timer(Duration(seconds: seconds), () {
+                  setState(() {
+                    greyMessageVisibility = true;
+                    certificateVisibility = true;
+                    delay = true;
+                  });
+                });
+              } else if (indexVisibilitySlide8 == 8 && delay) {
+                greyMessagePosition[0] = 0.875;
+                greyMessagePosition[1] = 0.001;
+                certificatePosition[0] = 0.885;
+                certificatePosition[1] = 0.03;
 
-                whiteMessagePosition[0] = 0.74;
-                whiteMessagePosition[1] = 0.15;
-              } else if (indexVisibilitySlide3 == 3) {
-                whiteMessagePosition[0] = 0.23;
-                whiteMessagePosition[1] = 0.15;
-              } else if (indexVisibilitySlide3 == 4) {
-                rightCipherTimer = Timer(
-                  Duration(seconds: 1),
-                  () {
-                    setState(
-                      () {
-                        cipherVisibility[1] = true;
-                      },
-                    );
-                  },
-                );
-                whiteMessagePosition[0] = 0.09;
-                whiteMessagePosition[1] = 0.01;
-              } else if (indexVisibilitySlide3 == 5) {
-                whiteMessageOpacity = 0.0;
-                messageOpacity = 1.0;
-              } else if (indexVisibilitySlide3 == 6) {
-                messagePosition[0] = 0.28;
-                messagePosition[1] = 0.41;
-              } else if (indexVisibilitySlide3 == 7) {
-                messagePosition[0] = 0.64;
-                messagePosition[1] = 0.52;
-              } else if (indexVisibilitySlide3 == 8) {
-                messagePosition[0] = 0.74;
-                messagePosition[1] = 0.15;
-              } else if (indexVisibilitySlide3 == 9) {
-                messagePosition[0] = 0.875;
-                messagePosition[1] = 0.01;
-              } else if (indexVisibilitySlide3 == 10) {
-                messageOpacity = 0.0;
-              } else if (indexVisibilitySlide3 == 11) {
-                malloryAndTargetVisibility[6] = false;
-                malloryAndTargetVisibility[8] = false;
-                cipherVisibility[0] = false;
-                cipherVisibility[1] = false;
+                delay = false;
+                envelopTimer = Timer(Duration(seconds: seconds), () {
+                  setState(() {
+                    envelopeOpacity = 0.0;
+                    delay = true;
+                  });
+                });
+              } else if (indexVisibilitySlide8 == 9) {
+                malloryAndTargetVisibility[0] = false;
+                malloryOpacity = 0.0;
+                for (int i = 0; i <= 2; i++) {
+                  cipherVisibility[i] = false;
+                }
+
+                for (int i = 0; i <= 2; i++) {
+                  cipherOpacity[i] = 0.0;
+                }
+              } else if (indexVisibilitySlide8 == 10) {
+                greyMessageOpacity = 0.0;
+                certificateOpacity = 0.0;
               }
             }
           },
@@ -304,106 +314,107 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
   }
 
   Timer videoTimerProblem() {
-    Timer videoTimerVariable = Timer.periodic(
+    videoTimerVariable = Timer.periodic(
       Duration(seconds: Global.slider),
       (Timer videoTimerVariable) {
         setState(
           () {
             seconds = Global.slider;
-            if (isLastIndex[0] == true) {
+            if (isLastIndex[0]) {
               openDialog(false);
-              videoTimerVariable.cancel();
             }
-            if (!redLine &&
-                indexVisibilitySlide3 < 11 &&
-                contentVisibility[0] == true) {
-              indexVisibilitySlide3++;
-              if (indexVisibilitySlide3 >= 0) {
-                isLastIndex[1] = false;
-              }
+            if (indexVisibilitySlide8 < 10 &&
+                contentVisibility[0] == true &&
+                delay) {
+              indexVisibilitySlide8++;
               pageController1 = TextEditingController()
-                ..text = (indexVisibilitySlide3 + 1).toString();
-              if (indexVisibilitySlide3 == 11) {
-                isLastIndex[0] = true;
-              }
+                ..text = (indexVisibilitySlide8 + 1).toString();
               stepsVisibility[0] = !stepsVisibility[0];
               stepsVisibility[1] = !stepsVisibility[1];
-              if (indexVisibilitySlide3 == 0) redLine = true;
+              if (indexVisibilitySlide8 == 10) {
+                isLastIndex[0] = true;
+              }
             }
+            if (indexVisibilitySlide8 > -1) {
+              isLastIndex[1] = false;
+            }
+            if (indexVisibilitySlide8 == 0) {
+              greyMessageOpacity = 1.0;
+            } else if (indexVisibilitySlide8 == 1) {
+              certificateOpacity = 1.0;
+            } else if (indexVisibilitySlide8 == 2) {
+              envelopeOpacity = 1.0;
+            } else if (indexVisibilitySlide8 == 3 && delay) {
+              greyMessagePosition[1] = envelopePosition[1];
+              certificatePosition[1] = 0.11;
+              delay = false;
+              envelopTimer = Timer(Duration(seconds: seconds), () {
+                setState(() {
+                  delay = true;
+                });
+              });
+            } else if (indexVisibilitySlide8 == 4) {
+              greyMessageVisibility = false;
+              certificateVisibility = false;
+              envelopePosition[0] = 0.28;
+              envelopePosition[1] = 0.41;
+              cipherVisibility[2] = true;
+              cipherOpacity[2] = 1.0;
+            } else if (indexVisibilitySlide8 == 5) {
+              envelopePosition[0] = 0.64;
+              envelopePosition[1] = 0.52;
+              cipherVisibility[1] = true;
+              cipherOpacity[1] = 1.0;
+            } else if (indexVisibilitySlide8 == 6) {
+              envelopePosition[0] = 0.74;
+              envelopePosition[1] = 0.15;
+            } else if (indexVisibilitySlide8 == 7 && delay) {
+              envelopePosition[0] = 0.8725;
+              envelopePosition[1] = 0.08;
+              greyMessagePosition[0] = 0.875;
+              greyMessagePosition[1] = 0.08;
+              certificatePosition[0] = 0.885;
+              certificatePosition[1] = 0.11;
+              delay = false;
+              envelopTimer = Timer(Duration(seconds: seconds), () {
+                setState(() {
+                  greyMessageVisibility = true;
+                  certificateVisibility = true;
+                  delay = true;
+                });
+              });
+            } else if (indexVisibilitySlide8 == 8 && delay) {
+              greyMessagePosition[0] = 0.875;
+              greyMessagePosition[1] = 0.001;
+              certificatePosition[0] = 0.885;
+              certificatePosition[1] = 0.03;
 
-            if (indexVisibilitySlide3 == 0 && contentVisibility[0] == true) {
-              contentVisibility[indexVisibilitySlide3] = false;
-              lineTimer = Timer(
-                Duration(seconds: 1),
-                () {
-                  setState(
-                    () {
-                      lineColor[0] = Colors.green;
-                      print(indexVisibilitySlide3);
-                      contentVisibility[indexVisibilitySlide3] = true;
-                      redLine = false;
-                      greenLine = true;
-                    },
-                  );
-                },
-              );
-              seconds = 1;
-            }
-            if (indexVisibilitySlide3 == 1) {
-              whiteMessageOpacity = 1.0;
-            } else if (indexVisibilitySlide3 == 2) {
-              leftCipherTimer = Timer(
-                Duration(seconds: 1),
-                () {
-                  setState(
-                    () {
-                      cipherVisibility[0] = true;
-                    },
-                  );
-                },
-              );
+              delay = false;
+              envelopTimer = Timer(Duration(seconds: seconds), () {
+                setState(() {
+                  envelopeOpacity = 0.0;
+                  delay = true;
+                });
+              });
+            } else if (indexVisibilitySlide8 == 9) {
+              malloryAndTargetVisibility[0] = false;
+              malloryOpacity = 0.0;
+              for (int i = 0; i <= 2; i++) {
+                cipherVisibility[i] = false;
+              }
 
-              whiteMessagePosition[0] = 0.74;
-              whiteMessagePosition[1] = 0.15;
-            } else if (indexVisibilitySlide3 == 3) {
-              whiteMessagePosition[0] = 0.23;
-              whiteMessagePosition[1] = 0.15;
-            } else if (indexVisibilitySlide3 == 4) {
-              rightCipherTimer = Timer(
-                Duration(seconds: 1),
-                () {
-                  setState(
-                    () {
-                      cipherVisibility[1] = true;
-                    },
-                  );
-                },
-              );
-              whiteMessagePosition[0] = 0.09;
-              whiteMessagePosition[1] = 0.01;
-            } else if (indexVisibilitySlide3 == 5) {
-              whiteMessageOpacity = 0.0;
-              messageOpacity = 1.0;
-            } else if (indexVisibilitySlide3 == 6) {
-              messagePosition[0] = 0.28;
-              messagePosition[1] = 0.41;
-            } else if (indexVisibilitySlide3 == 7) {
-              messagePosition[0] = 0.64;
-              messagePosition[1] = 0.52;
-            } else if (indexVisibilitySlide3 == 8) {
-              messagePosition[0] = 0.74;
-              messagePosition[1] = 0.15;
-            } else if (indexVisibilitySlide3 == 9) {
-              messagePosition[0] = 0.875;
-              messagePosition[1] = 0.01;
-            } else if (indexVisibilitySlide3 == 10) {
-              messageOpacity = 0.0;
-            } else if (indexVisibilitySlide3 == 11) {
-              malloryAndTargetVisibility[6] = false;
-              malloryAndTargetVisibility[8] = false;
-              cipherVisibility[0] = false;
-              cipherVisibility[1] = false;
+              for (int i = 0; i <= 2; i++) {
+                cipherOpacity[i] = 0.0;
+              }
+            } else if (indexVisibilitySlide8 == 10) {
+              greyMessageOpacity = 0.0;
+              certificateOpacity = 0.0;
             }
+            // if (Languages.selectedLanguage) {
+            //   text = DescList.slide8Desc[indexVisibilitySlide8];
+            // } else {
+            //   text = DescListEnglish.slide8Desc[indexVisibilitySlide8];
+            // }
           },
         );
       },
@@ -438,7 +449,6 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
     }
     return InteractiveViewer(
       panEnabled: true,
-      scaleEnabled: Global.scaleEnabled,
       maxScale: 4,
       child: Stack(
         children: [
@@ -509,68 +519,8 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             0.2,
             0.08,
             0.12,
-            true,
-            serverPath[0],
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            1.0,
-          ),
-
-          // its-image
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.37,
-            0.0,
-            0.0,
-            0.13,
-            0.08,
-            0.12,
-            contentVisibility[1],
-            'assets/its.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            1.0,
-          ),
-
-          // google-image-1
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.32,
-            0.28,
-            0.0,
-            0.0,
-            0.08,
-            0.12,
-            contentVisibility[4],
-            'assets/google.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            1.0,
-          ),
-
-          // google-image-2
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.62,
-            0.26,
-            0.0,
-            0.0,
-            0.08,
-            0.12,
-            contentVisibility[10],
-            'assets/google.jpeg',
+            contentVisibility[0],
+            greenServerPath,
             BoxFit.fill,
             seconds,
             HomePageE2EEState.returnAppBar[1],
@@ -589,8 +539,8 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             0.0,
             0.08,
             0.12,
-            true,
-            serverPath[1],
+            contentVisibility[0],
+            greenServerPath,
             BoxFit.fill,
             seconds,
             HomePageE2EEState.returnAppBar[1],
@@ -609,8 +559,8 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             0.28,
             0.08,
             0.12,
-            true,
-            serverPath[2],
+            contentVisibility[0],
+            greenServerPath,
             BoxFit.fill,
             seconds,
             HomePageE2EEState.returnAppBar[1],
@@ -629,8 +579,207 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             0.0,
             0.08,
             0.12,
+            contentVisibility[0],
+            greenServerPath,
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            1.0,
+          ),
+
+          // Line between top-left and middle-left
+          MyLine(true, 0.08, 0.14, 0.198, 0.28, seconds, Colors.green),
+
+          // Line between middle-left and middle-right
+          MyLine(true, 0.28, 0.28, 0.72, 0.28, seconds, Colors.green),
+
+          // Line between top-right and middle right
+          MyLine(true, 0.78, 0.229, 0.92, 0.14, seconds, Colors.green),
+
+          // Line between top-right and bottom-right
+          MyLine(true, 0.72, 0.5, 0.92, 0.14, seconds, Colors.green),
+
+          // Line between down-left and bottom-right
+          MyLine(true, 0.36, 0.65, 0.67, 0.55, seconds, Colors.green),
+
+          // Line between middle-left and bottom-left
+          MyLine(true, 0.25, 0.34, 0.31, 0.6, seconds, Colors.green),
+
+          //Mallory1
+          MyPositioned(
+            false,
             true,
-            serverPath[3],
+            false,
+            false,
+            0.155,
+            0.0,
+            0.0,
+            0.25,
+            0.08,
+            0.12,
+            malloryAndTargetVisibility[0],
+            'assets/mallory.jpeg',
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            malloryOpacity,
+          ),
+          //Mallory2
+          MyPositioned(
+            true,
+            false,
+            false,
+            false,
+            0.155,
+            0.27,
+            0.0,
+            0.0,
+            0.08,
+            0.12,
+            malloryAndTargetVisibility[0],
+            'assets/mallory.jpeg',
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            malloryOpacity,
+          ),
+          //Mallory3
+          MyPositioned(
+            true,
+            false,
+            false,
+            false,
+            0.48,
+            0.32,
+            0.0,
+            0.0,
+            0.08,
+            0.12,
+            malloryAndTargetVisibility[0],
+            'assets/mallory.jpeg',
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            malloryOpacity,
+          ),
+          //Mallory4
+          MyPositioned(
+            false,
+            true,
+            false,
+            false,
+            0.58,
+            0.0,
+            0.0,
+            0.21,
+            0.08,
+            0.12,
+            malloryAndTargetVisibility[0],
+            'assets/mallory.jpeg',
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            malloryOpacity,
+          ),
+
+          // Top-Left-Cipher
+
+          MyPositioned(
+            true,
+            false,
+            false,
+            false,
+            0.013,
+            0.62,
+            0.0,
+            0.0,
+            0.1,
+            0.15,
+            cipherVisibility[0],
+            cipherPaths[0],
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            cipherOpacity[0],
+          ),
+          // Top-Right-Cipher
+          MyPositioned(
+            false,
+            true,
+            false,
+            false,
+            0.025,
+            0.0,
+            0.0,
+            0.585,
+            0.1,
+            0.15,
+            cipherVisibility[0],
+            cipherPaths[1],
+            BoxFit.fill,
+            seconds,
+            HomePageE2EEState.returnAppBar[1],
+            cipherOpacity[0],
+          ),
+          // Bottom-Left-Cipher
+          Visibility(
+            visible: resetVisibility,
+            child: MyPositioned(
+              true,
+              false,
+              false,
+              false,
+              0.45,
+              0.77,
+              0.0,
+              0.0,
+              0.1,
+              0.15,
+              cipherVisibility[1],
+              cipherPaths[2],
+              BoxFit.fill,
+              seconds,
+              HomePageE2EEState.returnAppBar[1],
+              cipherOpacity[1],
+            ),
+          ),
+          // Bottom-Right-Cipher
+          Visibility(
+            visible: resetVisibility,
+            child: MyPositioned(
+              false,
+              true,
+              false,
+              false,
+              0.3,
+              0.0,
+              0.0,
+              0.55,
+              0.13,
+              0.18,
+              cipherVisibility[2],
+              cipherPaths[3],
+              BoxFit.fill,
+              seconds,
+              HomePageE2EEState.returnAppBar[1],
+              cipherOpacity[2],
+            ),
+          ),
+
+          //Mallory9
+          MyPositioned(
+            false,
+            true,
+            false,
+            false,
+            0.09,
+            0.0,
+            0.0,
+            0.125,
+            0.08,
+            0.12,
+            false,
+            'assets/mallory.jpeg',
             BoxFit.fill,
             seconds,
             HomePageE2EEState.returnAppBar[1],
@@ -672,242 +821,6 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             'assets/steps2.jpeg',
             BoxFit.fill,
             0,
-            HomePageE2EEState.returnAppBar[1],
-            1.0,
-          ),
-
-          // Line between top-left and middle-left
-          MyLine(contentVisibility[0], 0.08, 0.14, 0.198, 0.28, seconds,
-              lineColor[0]),
-
-          // Line between middle-left and middle-right
-          MyLine(contentVisibility[5], 0.28, 0.28, 0.72, 0.28, seconds,
-              lineColor[1]),
-
-          // Line between top-right and middle right
-          MyLine(contentVisibility[0], 0.78, 0.229, 0.92, 0.14, seconds,
-              lineColor[0]),
-
-          // Line between top-right and bottom-right
-          MyLine(contentVisibility[0], 0.72, 0.5, 0.92, 0.14, seconds,
-              lineColor[0]),
-
-          // Line between down-left and bottom-right
-          MyLine(contentVisibility[12], 0.36, 0.65, 0.67, 0.55, seconds,
-              lineColor[3]),
-
-          // Line between middle-left and bottom-left
-          MyLine(contentVisibility[14], 0.25, 0.34, 0.31, 0.6, seconds,
-              lineColor[4]),
-
-          //Mallory1
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.155,
-            0.0,
-            0.0,
-            0.25,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[0],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory2
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.155,
-            0.27,
-            0.0,
-            0.0,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[1],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory3
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.48,
-            0.32,
-            0.0,
-            0.0,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[2],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory4
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.58,
-            0.0,
-            0.0,
-            0.21,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[3],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory5
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.2,
-            0.45,
-            0.0,
-            0.0,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[4],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory6
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.54,
-            0.0,
-            0.0,
-            0.45,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[5],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory7
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.15,
-            0.1,
-            0.0,
-            0.0,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[6],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory8
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.35,
-            0.0,
-            0.0,
-            0.27,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[7],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            malloryOpacity,
-          ),
-          //Mallory9
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.09,
-            0.0,
-            0.0,
-            0.125,
-            0.08,
-            0.12,
-            malloryAndTargetVisibility[8],
-            'assets/mallory.jpeg',
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            1.0,
-          ),
-
-          // Cipher-left
-          MyPositioned(
-            false,
-            true,
-            false,
-            false,
-            0.007,
-            0.0,
-            0.0,
-            0.2,
-            0.1,
-            0.15,
-            cipherVisibility[0],
-            cipherPath[0],
-            BoxFit.fill,
-            seconds,
-            HomePageE2EEState.returnAppBar[1],
-            1.0,
-          ),
-
-          // Cipher-right
-          MyPositioned(
-            true,
-            false,
-            false,
-            false,
-            0.005,
-            0.09,
-            0.0,
-            0.0,
-            0.1,
-            0.15,
-            cipherVisibility[1],
-            cipherPath[1],
-            BoxFit.fill,
-            seconds,
             HomePageE2EEState.returnAppBar[1],
             1.0,
           ),
@@ -1104,34 +1017,56 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
               HomePageE2EEState.returnAppBar[1], false),
 
           // The Grey Message
-          AnimatedPositioned(
-            top: (MediaQuery.of(context).size.height -
-                    HomePageE2EEState.returnAppBar[1]) *
-                messagePosition[1],
-            right: MediaQuery.of(context).size.width * messagePosition[0],
-            width: MediaQuery.of(context).size.width * 0.04,
-            height: MediaQuery.of(context).size.height * 0.1,
-            duration: Duration(seconds: seconds),
-            child: AnimatedOpacity(
-              opacity: messageOpacity,
-              duration: Duration(seconds: seconds == 0 ? 0 : 1),
-              child: Image.asset('assets/message.jpeg'),
+          Visibility(
+            visible: greyMessageVisibility,
+            child: AnimatedPositioned(
+              top: (MediaQuery.of(context).size.height -
+                      HomePageE2EEState.returnAppBar[1]) *
+                  greyMessagePosition[1],
+              right: MediaQuery.of(context).size.width * greyMessagePosition[0],
+              width: MediaQuery.of(context).size.width * 0.04,
+              height: MediaQuery.of(context).size.height * 0.1,
+              duration: Duration(seconds: seconds),
+              child: AnimatedOpacity(
+                opacity: greyMessageOpacity,
+                duration: Duration(seconds: seconds == 0 ? 0 : 1),
+                child: Image.asset('assets/message.jpeg'),
+              ),
             ),
           ),
 
-          // The White Message
+          //Certification
+          Visibility(
+            visible: certificateVisibility,
+            child: AnimatedPositioned(
+              top: (MediaQuery.of(context).size.height -
+                      HomePageE2EEState.returnAppBar[1]) *
+                  certificatePosition[1],
+              right: MediaQuery.of(context).size.width * certificatePosition[0],
+              width: MediaQuery.of(context).size.width * 0.02,
+              height: MediaQuery.of(context).size.height * 0.05,
+              duration: Duration(seconds: seconds),
+              child: AnimatedOpacity(
+                opacity: certificateOpacity,
+                duration: Duration(seconds: seconds == 0 ? 0 : 1),
+                child: Image.asset('assets/certificate.jpeg'),
+              ),
+            ),
+          ),
+
+          //Envelope
           AnimatedPositioned(
             top: (MediaQuery.of(context).size.height -
                     HomePageE2EEState.returnAppBar[1]) *
-                whiteMessagePosition[1],
-            right: MediaQuery.of(context).size.width * whiteMessagePosition[0],
-            width: MediaQuery.of(context).size.width * 0.04,
+                envelopePosition[1],
+            right: MediaQuery.of(context).size.width * envelopePosition[0],
+            width: MediaQuery.of(context).size.width * 0.045,
             height: MediaQuery.of(context).size.height * 0.1,
             duration: Duration(seconds: seconds),
             child: AnimatedOpacity(
-              opacity: whiteMessageOpacity,
+              opacity: envelopeOpacity,
               duration: Duration(seconds: seconds == 0 ? 0 : 1),
-              child: Image.asset('assets/white-message.jpeg'),
+              child: Image.asset('assets/envelope.jpeg'),
             ),
           ),
 
@@ -1143,112 +1078,112 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             height: MediaQuery.of(context).size.height * 0.1,
             child: FloatingActionButton(
               backgroundColor: isLastIndex[0] ? Colors.grey : Colors.blue,
-              heroTag: "right3",
+              heroTag: "right8",
               onPressed: () => setState(
                 () {
-                  videoTimerSlide3.cancel();
+                  videoTimerSlide8.cancel();
+                  if (videoButton == false) {
+                    videoTimerSlide8.cancel();
+                    envelopTimer.cancel();
+                    delay = true;
+                  }
                   videoButton = true;
                   seconds = Global.slider;
 
                   if (isLastIndex[0]) {
                     openDialog(false);
                   }
-
-                  if (!redLine &&
-                      indexVisibilitySlide3 < 11 &&
-                      contentVisibility[0] == true) {
-                    indexVisibilitySlide3++;
-                    if (indexVisibilitySlide3 >= 0) {
-                      isLastIndex[1] = false;
-                    }
+                  if (indexVisibilitySlide8 < 10 &&
+                      contentVisibility[0] == true &&
+                      delay) {
+                    indexVisibilitySlide8++;
                     pageController1 = TextEditingController()
-                      ..text = (indexVisibilitySlide3 + 1).toString();
-                    if (indexVisibilitySlide3 == 11) {
-                      isLastIndex[0] = true;
-                    }
+                      ..text = (indexVisibilitySlide8 + 1).toString();
                     stepsVisibility[0] = !stepsVisibility[0];
                     stepsVisibility[1] = !stepsVisibility[1];
-                    if (indexVisibilitySlide3 == 0) redLine = true;
+                    if (indexVisibilitySlide8 == 10) {
+                      isLastIndex[0] = true;
+                    }
                   }
+                  if (indexVisibilitySlide8 > -1) {
+                    isLastIndex[1] = false;
+                  }
+                  if (indexVisibilitySlide8 == 0) {
+                    greyMessageOpacity = 1.0;
+                  } else if (indexVisibilitySlide8 == 1) {
+                    certificateOpacity = 1.0;
+                  } else if (indexVisibilitySlide8 == 2) {
+                    envelopeOpacity = 1.0;
+                  } else if (indexVisibilitySlide8 == 3 && delay) {
+                    greyMessagePosition[1] = envelopePosition[1];
+                    certificatePosition[1] = 0.11;
+                    delay = false;
+                    envelopTimer = Timer(Duration(seconds: seconds), () {
+                      setState(() {
+                        delay = true;
+                      });
+                    });
+                  } else if (indexVisibilitySlide8 == 4) {
+                    greyMessageVisibility = false;
+                    certificateVisibility = false;
+                    envelopePosition[0] = 0.28;
+                    envelopePosition[1] = 0.41;
+                    cipherVisibility[2] = true;
+                    cipherOpacity[2] = 1.0;
+                  } else if (indexVisibilitySlide8 == 5) {
+                    envelopePosition[0] = 0.64;
+                    envelopePosition[1] = 0.52;
+                    cipherVisibility[1] = true;
+                    cipherOpacity[1] = 1.0;
+                  } else if (indexVisibilitySlide8 == 6) {
+                    envelopePosition[0] = 0.74;
+                    envelopePosition[1] = 0.15;
+                  } else if (indexVisibilitySlide8 == 7 && delay) {
+                    envelopePosition[0] = 0.8725;
+                    envelopePosition[1] = 0.08;
+                    greyMessagePosition[0] = 0.875;
+                    greyMessagePosition[1] = 0.08;
+                    certificatePosition[0] = 0.885;
+                    certificatePosition[1] = 0.11;
+                    delay = false;
+                    envelopTimer = Timer(Duration(seconds: seconds), () {
+                      setState(() {
+                        greyMessageVisibility = true;
+                        certificateVisibility = true;
+                        delay = true;
+                      });
+                    });
+                  } else if (indexVisibilitySlide8 == 8 && delay) {
+                    greyMessagePosition[0] = 0.875;
+                    greyMessagePosition[1] = 0.001;
+                    certificatePosition[0] = 0.885;
+                    certificatePosition[1] = 0.03;
 
-                  if (indexVisibilitySlide3 == 0 &&
-                      contentVisibility[0] == true) {
-                    contentVisibility[indexVisibilitySlide3] = false;
-                    lineTimer = Timer(
-                      Duration(seconds: 1),
-                      () {
-                        setState(
-                          () {
-                            lineColor[0] = Colors.green;
-                            contentVisibility[indexVisibilitySlide3] = true;
-                            redLine = false;
-                            greenLine = true;
-                          },
-                        );
-                      },
-                    );
-                    seconds = 1;
-                  }
-                  if (indexVisibilitySlide3 == 1) {
-                    whiteMessageOpacity = 1.0;
-                  } else if (indexVisibilitySlide3 == 2) {
-                    leftCipherTimer = Timer(
-                      Duration(seconds: 1),
-                      () {
-                        setState(
-                          () {
-                            cipherVisibility[0] = true;
-                          },
-                        );
-                      },
-                    );
+                    delay = false;
+                    envelopTimer = Timer(Duration(seconds: seconds), () {
+                      setState(() {
+                        envelopeOpacity = 0.0;
+                        delay = true;
+                      });
+                    });
+                  } else if (indexVisibilitySlide8 == 9) {
+                    malloryAndTargetVisibility[0] = false;
+                    malloryOpacity = 0.0;
+                    for (int i = 0; i <= 2; i++) {
+                      cipherVisibility[i] = false;
+                    }
 
-                    whiteMessagePosition[0] = 0.74;
-                    whiteMessagePosition[1] = 0.15;
-                  } else if (indexVisibilitySlide3 == 3) {
-                    whiteMessagePosition[0] = 0.23;
-                    whiteMessagePosition[1] = 0.15;
-                  } else if (indexVisibilitySlide3 == 4) {
-                    rightCipherTimer = Timer(
-                      Duration(seconds: 1),
-                      () {
-                        setState(
-                          () {
-                            cipherVisibility[1] = true;
-                          },
-                        );
-                      },
-                    );
-                    whiteMessagePosition[0] = 0.09;
-                    whiteMessagePosition[1] = 0.01;
-                  } else if (indexVisibilitySlide3 == 5) {
-                    whiteMessageOpacity = 0.0;
-                    messageOpacity = 1.0;
-                  } else if (indexVisibilitySlide3 == 6) {
-                    messagePosition[0] = 0.28;
-                    messagePosition[1] = 0.41;
-                  } else if (indexVisibilitySlide3 == 7) {
-                    messagePosition[0] = 0.64;
-                    messagePosition[1] = 0.52;
-                  } else if (indexVisibilitySlide3 == 8) {
-                    messagePosition[0] = 0.74;
-                    messagePosition[1] = 0.15;
-                  } else if (indexVisibilitySlide3 == 9) {
-                    messagePosition[0] = 0.875;
-                    messagePosition[1] = 0.01;
-                  } else if (indexVisibilitySlide3 == 10) {
-                    messageOpacity = 0.0;
-                  } else if (indexVisibilitySlide3 == 11) {
-                    malloryAndTargetVisibility[6] = false;
-                    malloryAndTargetVisibility[8] = false;
-                    cipherVisibility[0] = false;
-                    cipherVisibility[1] = false;
+                    for (int i = 0; i <= 2; i++) {
+                      cipherOpacity[i] = 0.0;
+                    }
+                  } else if (indexVisibilitySlide8 == 10) {
+                    greyMessageOpacity = 0.0;
+                    certificateOpacity = 0.0;
                   }
-                  // if (indexVisibilitySlide3 >= 0) {
-                  //   if (Languages.selectedLanguage)
-                  //     text = DescList.slide3Desc[indexVisibilitySlide3];
-                  //   else
-                  //     text = DescListEnglish.slide3Desc[indexVisibilitySlide3];
+                  // if (Languages.selectedLanguage) {
+                  //   text = DescList.slide8Desc[indexVisibilitySlide8];
+                  // } else {
+                  //   text = DescListEnglish.slide8Desc[indexVisibilitySlide8];
                   // }
                 },
               ),
@@ -1266,101 +1201,138 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             height: MediaQuery.of(context).size.height * 0.1,
             child: FloatingActionButton(
               backgroundColor: isLastIndex[1] ? Colors.grey : Colors.blue,
-              heroTag: "left3",
+              heroTag: "left8",
               onPressed: () => setState(
                 () {
-                  videoTimerSlide3.cancel();
+                  if (videoButton == false) {
+                    videoTimerSlide8.cancel();
+                    envelopTimer.cancel();
+                    delay = true;
+                  }
                   videoButton = true;
-
                   seconds = Global.slider;
-                  isLastIndex[0] = false;
                   if (isLastIndex[1]) {
                     openDialog(true);
                   }
-
-                  if (indexVisibilitySlide3 == 0 && greenLine) {
-                    greenLine = false;
-
-                    contentVisibility[indexVisibilitySlide3] = false;
-                    stepsVisibility[0] = !stepsVisibility[0];
-                    stepsVisibility[1] = !stepsVisibility[1];
-                    lineTimer = Timer(
-                      Duration(seconds: 1),
-                      () {
-                        setState(
-                          () {
-                            lineColor[0] = Colors.red;
-                            contentVisibility[indexVisibilitySlide3] = true;
-                            redLine = false;
-                            indexVisibilitySlide3--;
-                            pageController1 = TextEditingController()
-                              ..text = (indexVisibilitySlide3 + 1).toString();
-
-                            isLastIndex[1] = true;
-                          },
-                        );
-                      },
-                    );
-                    seconds = 1;
-                  }
-                  if (indexVisibilitySlide3 == 1) {
-                    whiteMessageOpacity = 0.0;
-                  } else if (indexVisibilitySlide3 == 2) {
-                    leftCipherTimer = Timer(Duration(seconds: 1), () {
-                      setState(() {
-                        cipherVisibility[0] = false;
-                      });
-                    });
-                    whiteMessagePosition[0] = 0.875;
-                    whiteMessagePosition[1] = 0.01;
-                  } else if (indexVisibilitySlide3 == 3) {
-                    whiteMessagePosition[0] = 0.74;
-                    whiteMessagePosition[1] = 0.15;
-                  } else if (indexVisibilitySlide3 == 4) {
-                    rightCipherTimer = Timer(Duration(seconds: 1), () {
-                      setState(() {
-                        cipherVisibility[1] = false;
-                      });
-                    });
-                    whiteMessagePosition[0] = 0.23;
-                    whiteMessagePosition[1] = 0.15;
-                  } else if (indexVisibilitySlide3 == 5) {
-                    whiteMessageOpacity = 1.0;
-                    messageOpacity = 0.0;
-                  } else if (indexVisibilitySlide3 == 6) {
-                    messagePosition[0] = 0.09;
-                    messagePosition[1] = 0.01;
-                  } else if (indexVisibilitySlide3 == 7) {
-                    messagePosition[0] = 0.28;
-                    messagePosition[1] = 0.41;
-                  } else if (indexVisibilitySlide3 == 8) {
-                    messagePosition[0] = 0.64;
-                    messagePosition[1] = 0.52;
-                  } else if (indexVisibilitySlide3 == 9) {
-                    messagePosition[0] = 0.74;
-                    messagePosition[1] = 0.15;
-                  } else if (indexVisibilitySlide3 == 10) {
-                    messageOpacity = 1.0;
-                  } else if (indexVisibilitySlide3 == 11) {
-                    malloryAndTargetVisibility[6] = true;
-                    malloryAndTargetVisibility[8] = true;
-                    cipherVisibility[0] = true;
-                    cipherVisibility[1] = true;
-                  }
-                  if (!redLine && indexVisibilitySlide3 > 0) {
-                    if (indexVisibilitySlide3 == 0) {
-                      redLine = true;
-                    }
-                    indexVisibilitySlide3--;
+                  if (indexVisibilitySlide8 == 0) {
+                    greyMessageOpacity = 0.0;
+                    indexVisibilitySlide8--;
                     pageController1 = TextEditingController()
-                      ..text = (indexVisibilitySlide3 + 1).toString();
+                      ..text = (indexVisibilitySlide8 + 1).toString();
+                    isLastIndex[1] = true;
                     stepsVisibility[0] = !stepsVisibility[0];
                     stepsVisibility[1] = !stepsVisibility[1];
-                    // if (Languages.selectedLanguage) {
-                    //   text = DescList.slide3Desc[indexVisibilitySlide3];
-                    // } else {
-                    //   text = DescListEnglish.slide3Desc[indexVisibilitySlide3];
-                    // }
+                  } else if (indexVisibilitySlide8 == 1) {
+                    certificateOpacity = 0.0;
+                  } else if (indexVisibilitySlide8 == 2 && delay) {
+                    envelopeOpacity = 0.0;
+                  } else if (indexVisibilitySlide8 == 3 && delay) {
+                    greyMessagePosition[1] = 0.001;
+                    certificatePosition[1] = 0.03;
+                    delay = false;
+                    indexVisibilitySlide8--;
+                    pageController1 = TextEditingController()
+                      ..text = (indexVisibilitySlide8 + 1).toString();
+                    stepsVisibility[0] = !stepsVisibility[0];
+                    stepsVisibility[1] = !stepsVisibility[1];
+                    // if (Languages.selectedLanguage)
+                    //   text = DescList.slide8Desc[indexVisibilitySlide8];
+                    // else
+                    //   text = DescListEnglish.slide8Desc[indexVisibilitySlide8];
+                    envelopTimer = Timer(Duration(seconds: seconds), () {
+                      setState(() {
+                        delay = true;
+                      });
+                    });
+                  } else if (indexVisibilitySlide8 == 4 && delay) {
+                    delay = false;
+                    indexVisibilitySlide8--;
+                    pageController1 = TextEditingController()
+                      ..text = (indexVisibilitySlide8 + 1).toString();
+                    stepsVisibility[0] = !stepsVisibility[0];
+                    stepsVisibility[1] = !stepsVisibility[1];
+                    if (Global.selectedLanguage)
+                      //   text = DescList.slide8Desc[indexVisibilitySlide8];
+                      // else
+                      //   text = DescListEnglish.slide8Desc[indexVisibilitySlide8];
+                      envelopTimer = Timer(Duration(seconds: seconds), () {
+                        setState(() {
+                          greyMessageVisibility = true;
+                          certificateVisibility = true;
+                          delay = true;
+                        });
+                      });
+                    envelopePosition[0] = 0.088;
+                    envelopePosition[1] = 0.08;
+                    cipherVisibility[2] = false;
+                    cipherOpacity[2] = 0.0;
+                  } else if (indexVisibilitySlide8 == 5) {
+                    cipherVisibility[1] = false;
+                    cipherOpacity[1] = 0.0;
+                    envelopePosition[0] = 0.28;
+                    envelopePosition[1] = 0.41;
+                  } else if (indexVisibilitySlide8 == 6) {
+                    envelopePosition[0] = 0.64;
+                    envelopePosition[1] = 0.52;
+                  } else if (indexVisibilitySlide8 == 7 && delay) {
+                    envelopePosition[0] = 0.74;
+                    envelopePosition[1] = 0.15;
+                    greyMessagePosition[0] = 0.09;
+                    greyMessagePosition[1] = 0.08;
+                    certificatePosition[0] = 0.1;
+                    certificatePosition[1] = 0.11;
+                    greyMessageVisibility = false;
+                    certificateVisibility = false;
+                  } else if (indexVisibilitySlide8 == 8 && delay) {
+                    envelopeOpacity = 1.0;
+                    greyMessagePosition[0] = 0.875;
+                    greyMessagePosition[1] = 0.08;
+                    certificatePosition[0] = 0.885;
+                    certificatePosition[1] = 0.11;
+                    delay = false;
+                    indexVisibilitySlide8--;
+                    pageController1 = TextEditingController()
+                      ..text = (indexVisibilitySlide8 + 1).toString();
+                    stepsVisibility[0] = !stepsVisibility[0];
+                    stepsVisibility[1] = !stepsVisibility[1];
+                    // if (Languages.selectedLanguage)
+                    //   text = DescList.slide8Desc[indexVisibilitySlide8];
+                    // else
+                    //   text = DescListEnglish.slide8Desc[indexVisibilitySlide8];
+                    envelopTimer = Timer(Duration(seconds: seconds), () {
+                      setState(() {
+                        delay = true;
+                      });
+                    });
+                  } else if (indexVisibilitySlide8 == 9) {
+                    malloryAndTargetVisibility[0] = true;
+                    malloryOpacity = 1.0;
+                    for (int i = 0; i <= 2; i++) {
+                      cipherVisibility[i] = true;
+                    }
+
+                    for (int i = 0; i <= 2; i++) {
+                      cipherOpacity[i] = 1.0;
+                    }
+                  } else if (indexVisibilitySlide8 == 10) {
+                    greyMessageOpacity = 1.0;
+                    certificateOpacity = 1.0;
+                  }
+                  if (!redLine && indexVisibilitySlide8 > 0 && delay) {
+                    if (indexVisibilitySlide8 == 0) {
+                      redLine = true;
+                      delay = false;
+                    }
+                    indexVisibilitySlide8--;
+                    pageController1 = TextEditingController()
+                      ..text = (indexVisibilitySlide8 + 1).toString();
+                    isLastIndex[0] = false;
+                    stepsVisibility[0] = !stepsVisibility[0];
+                    stepsVisibility[1] = !stepsVisibility[1];
+                    // if (Languages.selectedLanguage)
+                    //   text = DescList.slide8Desc[indexVisibilitySlide8];
+                    // else
+                    //   text = DescListEnglish.slide8Desc[indexVisibilitySlide8];
                   }
                 },
               ),
@@ -1378,7 +1350,7 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             width: MediaQuery.of(context).size.width * 0.08,
             height: MediaQuery.of(context).size.height * 0.08,
             child: FloatingActionButton(
-              heroTag: "middle3",
+              heroTag: "middle8",
               onPressed: () => setState(
                 () {
                   isPressedUp = 1;
@@ -1387,7 +1359,7 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
                   dropButton = !dropButton;
                   containerSeconds = 2;
                   desc = !desc;
-                  timerSlide3 = Timer(
+                  timerSlide8 = Timer(
                     Duration(seconds: 2),
                     () {
                       setState(
@@ -1473,22 +1445,22 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
                                           if (Global.val == 1) {
                                             Global.slider = Global.val + 2;
                                             if (!videoButton) {
-                                              videoTimerSlide3.cancel();
-                                              videoTimerSlide3 =
+                                              videoTimerSlide8.cancel();
+                                              videoTimerSlide8 =
                                                   videoTimerProblem();
                                             }
                                           } else if (Global.val == 3) {
                                             Global.slider = Global.val - 2;
                                             if (!videoButton) {
-                                              videoTimerSlide3.cancel();
-                                              videoTimerSlide3 =
+                                              videoTimerSlide8.cancel();
+                                              videoTimerSlide8 =
                                                   videoTimerProblem();
                                             }
                                           } else {
                                             Global.slider = Global.val;
                                             if (!videoButton) {
-                                              videoTimerSlide3.cancel();
-                                              videoTimerSlide3 =
+                                              videoTimerSlide8.cancel();
+                                              videoTimerSlide8 =
                                                   videoTimerProblem();
                                             }
                                           }
@@ -1627,68 +1599,77 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             duration: Duration(
                 milliseconds: settingsButtonDuration + 100 * backToZero),
             child: FloatingActionButton(
-              heroTag: "stop3",
+              heroTag: "stop8",
               backgroundColor: Colors.red,
               onPressed: () => setState(
                 () {
-                  videoTimerSlide3.cancel();
-                  timerSlide3.cancel();
-                  leftCipherTimer.cancel();
-                  rightCipherTimer.cancel();
-                  // lineTimer.cancel();
-                  leftCipherVideoTimer.cancel();
-                  rightCipherVideoTimer.cancel();
-                  lineVideoTimer.cancel();
+                  Global.replacedSliderValue = Global.slider;
+                  greenServerTimer.cancel();
+                  greenServerVideoTimer.cancel();
+                  videoTimerSlide8.cancel();
+                  timerSlide8.cancel();
+                  videoTimerVariable.cancel();
+                  videoTimerSlide8.cancel();
+                  envelopTimer.cancel();
                   pageNumberTimer.cancel();
                   finishTimer.cancel();
+                  switchOldValue = false;
+                  scaleEnabledOldVal = false;
+                  sliderOldValue = 0;
+                  valOldValue = 0;
+                  languageOldValue = true;
+                  isLastIndex = [false, true];
                   pageController1 = TextEditingController()
                     ..text = (0).toString();
-                  isLastIndex = [false, true];
-                  // contentVisibility[0] = true;
-                  contentVisibility[0] = false;
-                  for (var i = 0; i < 6; i++) {
-                    lineColor[i] = Colors.red;
-                  }
-                  lineTimer = Timer(
-                    const Duration(milliseconds: 50),
-                    () {
-                      setState(
-                        () {
-                          contentVisibility[0] = true;
-                          lineColor[0] = Colors.red;
-                          lineColor[1] = Colors.red;
-                          lineColor[2] = Colors.red;
-                          lineColor[3] = Colors.red;
-                          lineColor[4] = Colors.red;
-                          lineColor[5] = Colors.red;
-                          lineTimer.cancel();
-                        },
-                      );
-                    },
-                  );
-
-                  videoButton = true;
-                  malloryAndTargetVisibility[6] = true;
-                  malloryAndTargetVisibility[8] = true;
-                  cipherVisibility[0] = false;
-                  cipherVisibility[1] = false;
+                  malloryAndTargetVisibility[0] = true;
+                  greyMessageVisibility = false;
+                  certificateVisibility = false;
                   stepsVisibility = [true, false];
-                  whiteMessagePosition[0] = 0.875;
-                  whiteMessagePosition[1] = 0.01;
-                  whiteMessageOpacity = 0.0;
-                  messagePosition[0] = 0.09;
-                  messagePosition[1] = 0.01;
-                  indexVisibilitySlide3 = -1;
-                  messageOpacity = 0.0;
-                  seconds = 0;
-                  text = '';
+                  backToZero = 0;
+                  checkSettingsDuration = 0;
+                  isSettingsPressed = 0;
+                  settingsButtonDuration = 0;
+                  redLine = false;
+                  greenLine = false;
+                  delay = true;
+                  malloryOpacity = 1.0;
+                  greyMessageOpacity = 0.0;
+                  envelopeOpacity = 0.0;
+                  priority = [true, true];
+                  descIndex = -1;
+                  containerSeconds = 0;
+                  isPressedUp = 0;
+                  isPressedDown = 0;
+                  notificationVisibility = false;
+                  cipherVisibility = [true, false, false];
+                  cipherOpacity = [1.0, 0.0, 0.0];
+                  checkVisibility = 0;
+                  timerProblem = 0;
+                  Global.slider = 0;
+                  seconds = Global.slider;
+                  greyMessagePosition = [0.09, 0.01];
+                  whiteMessagePosition = [0.875, 0.001];
+                  certificatePosition = [0.1, 0.04];
+                  envelopePosition = [0.088, 0.08];
+                  indexVisibilitySlide8 = -1;
+                  certificateOpacity = 0.0;
+                  dropButton = false;
                   desc = true;
                   descVisbility = desc;
-                  containerSeconds = 0;
-                  descIndex = -1;
-                  dropButton = false;
-                  timerProblem = 0;
-                  messageLastIndexProblem = 0;
+                  text = '';
+                  videoButton = true;
+                  timerSeconds = 3;
+
+                  envelopTimer = Timer(Duration(milliseconds: 50), () {
+                    setState(() {
+                      greyMessageVisibility = true;
+                      certificateVisibility = true;
+                      resetVisibility = true;
+                      Global.slider = Global.replacedSliderValue;
+                      seconds = Global.slider;
+                      envelopTimer.cancel();
+                    });
+                  });
                 },
               ),
               child: Icon(Icons.restart_alt_rounded,
@@ -1705,7 +1686,7 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             height: MediaQuery.of(context).size.height * 0.1,
             duration: Duration(milliseconds: settingsButtonDuration),
             child: FloatingActionButton(
-              heroTag: "play3",
+              heroTag: "play8",
               backgroundColor: Colors.green,
               onPressed: () => setState(
                 () {
@@ -1714,9 +1695,9 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
                   dropButton = false;
                   videoButton = !videoButton;
                   if (!videoButton) {
-                    videoTimerSlide3 = videoTimerProblem();
+                    videoTimerSlide8 = videoTimerProblem();
                   } else
-                    videoTimerSlide3.cancel();
+                    videoTimerSlide8.cancel();
                 },
               ),
               child: videoButton
@@ -1735,7 +1716,7 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             width: MediaQuery.of(context).size.width * 0.1,
             height: MediaQuery.of(context).size.height * 0.1,
             child: FloatingActionButton(
-              heroTag: "more3",
+              heroTag: "more8",
               onPressed: () => setState(
                 () {
                   isSettingsPressed = 1;
@@ -1754,7 +1735,7 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
                     backToZero = 1;
                   }
 
-                  timerSlide3 = Timer(
+                  timerSlide8 = Timer(
                     Duration(milliseconds: 100),
                     () {
                       setState(
@@ -1792,7 +1773,7 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
                     numberPageDialog();
                   },
                   child: Text(
-                    '${indexVisibilitySlide3 + 1} / 12',
+                    '${indexVisibilitySlide8 + 1} / 11',
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -1882,12 +1863,12 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
             onPressed: () {
               setState(() {
                 if (videoButton == false) {
-                  videoTimerSlide3.cancel();
+                  videoTimerSlide8.cancel();
                 }
                 videoButton = true;
                 seconds = Global.slider;
               });
-              if ((int.parse(pageController1.text) > 12) ||
+              if ((int.parse(pageController1.text) > 11) ||
                   (int.parse(pageController1.text) < 0)) {
                 showFlushBarMessage(
                     const Icon(
@@ -1908,9 +1889,9 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
           TextButton(
             onPressed: () {
               setState(() {
-                if (indexVisibilitySlide3 != -1) {
+                if (indexVisibilitySlide8 != -1) {
                   pageController1 = TextEditingController()
-                    ..text = (indexVisibilitySlide3).toString();
+                    ..text = (indexVisibilitySlide8).toString();
                 } else {
                   pageController1 = TextEditingController()
                     ..text = (0).toString();
@@ -1963,69 +1944,69 @@ class Slide3State extends State<Slide3> with SingleTickerProviderStateMixin {
 
   stopFunction() {
     setState(() {
-      videoTimerSlide3.cancel();
-      timerSlide3.cancel();
-      leftCipherTimer.cancel();
-      rightCipherTimer.cancel();
-      // lineTimer.cancel();
-      leftCipherVideoTimer.cancel();
-      rightCipherVideoTimer.cancel();
-      lineVideoTimer.cancel();
-      pageNumberTimer.cancel();
-      // finishTimer.cancel();
-
-      // switchOldValue = false;
-      // scaleEnabledOldVal = false;
-      // sliderOldValue = 0;
-      // valOldValue = 0;
-      // languageOldValue = true;
-      // locale = 'de';
+      Global.replacedSliderValue = Global.slider;
+      greenServerTimer.cancel();
+      greenServerVideoTimer.cancel();
+      videoTimerSlide8.cancel();
+      timerSlide8.cancel();
+      videoTimerVariable.cancel();
+      videoTimerSlide8.cancel();
+      envelopTimer.cancel();
+      switchOldValue = false;
+      scaleEnabledOldVal = false;
+      sliderOldValue = 0;
+      valOldValue = 0;
+      languageOldValue = true;
       isLastIndex = [false, true];
-      // contentVisibility[0] = true;
-      contentVisibility[0] = false;
-      for (var i = 0; i < 6; i++) {
-        lineColor[i] = Colors.red;
-      }
-      lineTimer = Timer(
-        const Duration(milliseconds: 50),
-        () {
-          setState(
-            () {
-              contentVisibility[0] = true;
-              lineColor[0] = Colors.red;
-              lineColor[1] = Colors.red;
-              lineColor[2] = Colors.red;
-              lineColor[3] = Colors.red;
-              lineColor[4] = Colors.red;
-              lineColor[5] = Colors.red;
-              lineTimer.cancel();
-            },
-          );
-        },
-      );
-
-      videoButton = true;
-      malloryAndTargetVisibility[6] = true;
-      malloryAndTargetVisibility[8] = true;
-      cipherVisibility[0] = false;
-      cipherVisibility[1] = false;
+      malloryAndTargetVisibility[0] = true;
+      greyMessageVisibility = false;
+      certificateVisibility = false;
       stepsVisibility = [true, false];
-      whiteMessagePosition[0] = 0.875;
-      whiteMessagePosition[1] = 0.01;
-      whiteMessageOpacity = 0.0;
-      messagePosition[0] = 0.09;
-      messagePosition[1] = 0.01;
-      indexVisibilitySlide3 = -1;
-      messageOpacity = 0.0;
-      seconds = 0;
-      text = '';
+      backToZero = 0;
+      checkSettingsDuration = 0;
+      isSettingsPressed = 0;
+      settingsButtonDuration = 0;
+      redLine = false;
+      greenLine = false;
+      delay = true;
+      malloryOpacity = 1.0;
+      greyMessageOpacity = 0.0;
+      envelopeOpacity = 0.0;
+      priority = [true, true];
+      descIndex = -1;
+      containerSeconds = 0;
+      isPressedUp = 0;
+      isPressedDown = 0;
+      notificationVisibility = false;
+      cipherVisibility = [true, false, false];
+      cipherOpacity = [1.0, 0.0, 0.0];
+      checkVisibility = 0;
+      timerProblem = 0;
+      Global.slider = 0;
+      seconds = Global.slider;
+      greyMessagePosition = [0.09, 0.01];
+      whiteMessagePosition = [0.875, 0.001];
+      certificatePosition = [0.1, 0.04];
+      envelopePosition = [0.088, 0.08];
+      indexVisibilitySlide8 = -1;
+      certificateOpacity = 0.0;
+      dropButton = false;
       desc = true;
       descVisbility = desc;
-      containerSeconds = 0;
-      descIndex = -1;
-      dropButton = false;
-      timerProblem = 0;
-      messageLastIndexProblem = 0;
+      text = '';
+      videoButton = true;
+      timerSeconds = 3;
+
+      envelopTimer = Timer(Duration(milliseconds: 50), () {
+        setState(() {
+          greyMessageVisibility = true;
+          certificateVisibility = true;
+          resetVisibility = true;
+          Global.slider = Global.replacedSliderValue;
+          seconds = Global.slider;
+          envelopTimer.cancel();
+        });
+      });
     });
   }
 

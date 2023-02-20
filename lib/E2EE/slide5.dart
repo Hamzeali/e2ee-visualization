@@ -276,6 +276,7 @@ class Slide5State extends State<Slide5> with SingleTickerProviderStateMixin {
             }
             if (indexVisibilitySlide5 == 12) {
               isLastIndex[0] = true;
+              videoTimerVariable.cancel();
             }
             pageController1 = TextEditingController()
               ..text = (indexVisibilitySlide5 + 1).toString();

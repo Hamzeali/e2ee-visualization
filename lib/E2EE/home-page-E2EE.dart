@@ -6,6 +6,10 @@ import 'package:showcaseview/showcaseview.dart';
 
 import 'about.dart';
 import 'slide1.dart';
+import 'slide10.dart';
+import 'slide11.dart';
+import 'slide12.dart';
+import 'slide13.dart';
 import 'slide2.dart';
 import 'slide3..dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,6 +17,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'slide4.dart';
 import 'slide5.dart';
 import 'slide6.dart';
+import 'slide7.dart';
+import 'slide8.dart';
+import 'slide9.dart';
 
 class HomePageE2EE extends StatefulWidget {
   const HomePageE2EE({Key? key}) : super(key: key);
@@ -29,6 +36,13 @@ class HomePageE2EEState extends State<HomePageE2EE>
   GlobalKey<Slide4State> slide4Key = GlobalKey<Slide4State>();
   GlobalKey<Slide5State> slide5Key = GlobalKey<Slide5State>();
   GlobalKey<Slide6State> slide6Key = GlobalKey<Slide6State>();
+  GlobalKey<Slide7State> slide7Key = GlobalKey<Slide7State>();
+  GlobalKey<Slide8State> slide8Key = GlobalKey<Slide8State>();
+  GlobalKey<Slide9State> slide9Key = GlobalKey<Slide9State>();
+  GlobalKey<Slide10State> slide10Key = GlobalKey<Slide10State>();
+  GlobalKey<Slide11State> slide11Key = GlobalKey<Slide11State>();
+  GlobalKey<Slide12State> slide12Key = GlobalKey<Slide12State>();
+  GlobalKey<Slide13State> slide13Key = GlobalKey<Slide13State>();
   press() {
     slide1Key.currentState!.pressMoreBtn();
   }
@@ -39,7 +53,7 @@ class HomePageE2EEState extends State<HomePageE2EE>
 
   static List returnAppBar = [AppBar(), 5.0];
   final List<Tab> tabs = <Tab>[
-    for (var i = 0; i < 6; i++)
+    for (var i = 0; i < 13; i++)
       Tab(
         text: (i + 1).toString(),
         height: 20,
@@ -179,6 +193,13 @@ class HomePageE2EEState extends State<HomePageE2EE>
               Slide4(key: slide4Key),
               Slide5(key: slide5Key),
               Slide6(key: slide6Key),
+              Slide7(key: slide7Key),
+              Slide8(key: slide8Key),
+              Slide9(key: slide9Key),
+              Slide10(key: slide10Key),
+              Slide11(key: slide11Key),
+              Slide12(key: slide12Key),
+              Slide13(key: slide13Key),
             ],
           );
         }),

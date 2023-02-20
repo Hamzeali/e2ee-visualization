@@ -317,6 +317,7 @@ class Slide4State extends State<Slide4> with SingleTickerProviderStateMixin {
 
             if (isLastIndex[0]) {
               openDialog(false);
+              videoTimerVariable.cancel();
             }
 
             if (!redLine &&

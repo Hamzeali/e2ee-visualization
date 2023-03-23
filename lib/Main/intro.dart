@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animator/animator.dart';
+import 'package:e2ee_visualization/E2EE/home-page-E2EE.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,11 +12,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-import '../E2EE/home-page-E2EE.dart';
+import '../E2EE/my-container.dart';
+import '../main.dart';
 import 'global.dart';
 import 'language-provider.dart';
-import '../main.dart';
-import '../E2EE/my-container.dart';
 
 class Intro extends StatefulWidget {
   const Intro({super.key});
@@ -23,6 +23,10 @@ class Intro extends StatefulWidget {
   @override
   State<Intro> createState() => IntroState();
 }
+
+bool isIntroStarted = false;
+List isLastIndex = [false, true];
+//---------
 
 bool isTyperFinished = false;
 bool isTouchEnabled = false;
@@ -199,7 +203,6 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                 },
                 child: const Text('OK'),
               ),
-              // Text(AppLocalizations.of(context)!.cancel),
             ],
           ),
         ),
@@ -365,6 +368,191 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
     );
   }
 
+  void increment() {
+    if (isTouchEnabled) {
+      setState(
+        () {
+          cnt++;
+          isClicked = true;
+
+          // Bob
+          if (cnt == 2) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.bobIntro;
+          }
+          // Eve
+          else if (cnt == 3) {
+            containerLeft = 0.25;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = -0.02;
+            messageText = AppLocalizations.of(context)!.malloryIntro;
+          } else if (cnt == 4) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.appDesc0;
+          }
+          // Alice
+          else if (cnt == 5) {
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 1000;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.appDesc1;
+          } else if (cnt == 6) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.appDesc2;
+          } else if (cnt == 7) {
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 1000;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.firstScene;
+          } else if (cnt == 8) {
+            containerLeft = 0.25;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = -0.02;
+            messageText = AppLocalizations.of(context)!.secondScene;
+          } else if (cnt == 9) {
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 1000;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.thirdScene;
+          } else if (cnt == 10) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.fourthScene;
+          } else if (cnt == 11) {
+            isTouchEnabled = false;
+            isIntroStarted = false;
+            containerLeft = 0.25;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = -0.02;
+            messageText = AppLocalizations.of(context)!.sceneStart1;
+            timer = Timer(const Duration(seconds: 6), () {
+              setState(() {
+                isTextVisible = false;
+                isScenarioBtnVisible = true;
+              });
+            });
+          }
+        },
+      );
+      timerMethod(cnt);
+    }
+  }
+
+  void decrement() {
+    if (isTouchEnabled) {
+      setState(
+        () {
+          cnt--;
+          // isClicked = true;
+
+          if (cnt == 1) {
+            isLastIndex[1] = true;
+            bobTop = -0.5;
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 500;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.aliceIntro;
+          }
+
+          // Bob
+          if (cnt == 2) {
+            contaienrSec = 500;
+            eveTop = -0.5;
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.bobIntro;
+          }
+          // Eve
+          else if (cnt == 3) {
+            containerLeft = 0.25;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = -0.02;
+            messageText = AppLocalizations.of(context)!.malloryIntro;
+          } else if (cnt == 4) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.appDesc0;
+          }
+          // Alice
+          else if (cnt == 5) {
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 1000;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.appDesc1;
+          } else if (cnt == 6) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.appDesc2;
+          } else if (cnt == 7) {
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 1000;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.firstScene;
+          } else if (cnt == 8) {
+            containerLeft = 0.25;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = -0.02;
+            messageText = AppLocalizations.of(context)!.secondScene;
+          } else if (cnt == 9) {
+            containerLeft = 0.07;
+            containerWidth = 0.6;
+            contaienrSec = 1000;
+            xShape = -0.22;
+            messageText = AppLocalizations.of(context)!.thirdScene;
+          } else if (cnt == 10) {
+            containerLeft = 0.37;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = 0.17;
+            messageText = AppLocalizations.of(context)!.fourthScene;
+          } else if (cnt == 11) {
+            isTouchEnabled = false;
+            isIntroStarted = false;
+            containerLeft = 0.25;
+            containerWidth = 0.55;
+            contaienrSec = 1000;
+            xShape = -0.02;
+            messageText = AppLocalizations.of(context)!.sceneStart1;
+            timer = Timer(const Duration(seconds: 6), () {
+              setState(() {
+                isTextVisible = false;
+                isScenarioBtnVisible = true;
+              });
+            });
+          }
+        },
+      );
+      // timerMethod(cnt);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isResizing) sec = 0;
@@ -373,99 +561,91 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
           ? Container()
           : InkWell(
               onTap: () {
-                if (isTouchEnabled) {
-                  setState(
-                    () {
-                      cnt++;
-                      isClicked = true;
+                isLastIndex[1] = false;
+                increment();
+                // if (isTouchEnabled) {
+                //   setState(
+                //     () {
+                //       cnt++;
+                //       isClicked = true;
 
-                      // Bob
-                      if (cnt == 2) {
-                        containerLeft = 0.37;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = 0.17;
-                        // messageText = AppLocalizations.of(context)!.bobIntro;
-                        messageText = 'test';
-                      }
-                      // Eve
-                      else if (cnt == 3) {
-                        containerLeft = 0.25;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = -0.02;
-                        // messageText = AppLocalizations.of(context)!.eveIntro;
-                        messageText = 'test';
-                      } else if (cnt == 4) {
-                        containerLeft = 0.37;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = 0.17;
-                        // messageText = AppLocalizations.of(context)!.appDesc0;
-                        messageText = 'test';
-                      }
-                      // Alice
-                      else if (cnt == 5) {
-                        containerLeft = 0.07;
-                        containerWidth = 0.6;
-                        contaienrSec = 1000;
-                        xShape = -0.22;
-                        // messageText = AppLocalizations.of(context)!.appDesc1;
-                        messageText = 'test';
-                      } else if (cnt == 6) {
-                        containerLeft = 0.37;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = 0.17;
-                        // messageText = AppLocalizations.of(context)!.appDesc2;
-                        messageText = 'test';
-                      } else if (cnt == 7) {
-                        containerLeft = 0.07;
-                        containerWidth = 0.6;
-                        contaienrSec = 1000;
-                        xShape = -0.22;
-                        // messageText = AppLocalizations.of(context)!.firstScene;
-                        messageText = 'test';
-                      } else if (cnt == 8) {
-                        containerLeft = 0.25;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = -0.02;
-                        // messageText = AppLocalizations.of(context)!.secondScene;
-                        messageText = 'test';
-                      } else if (cnt == 9) {
-                        containerLeft = 0.07;
-                        containerWidth = 0.6;
-                        contaienrSec = 1000;
-                        xShape = -0.22;
-                        // messageText = AppLocalizations.of(context)!.thirdScene;
-                        messageText = 'test';
-                      } else if (cnt == 10) {
-                        containerLeft = 0.37;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = 0.17;
-                        // messageText = AppLocalizations.of(context)!.fourthScene;
-                        messageText = 'test';
-                      } else if (cnt == 11) {
-                        isTouchEnabled = false;
-                        containerLeft = 0.25;
-                        containerWidth = 0.55;
-                        contaienrSec = 1000;
-                        xShape = -0.02;
-                        // messageText = AppLocalizations.of(context)!.sceneStart1;
-                        messageText = 'test';
-                        timer = Timer(const Duration(seconds: 6), () {
-                          setState(() {
-                            isTextVisible = false;
-                            isScenarioBtnVisible = true;
-                          });
-                        });
-                      }
-                    },
-                  );
-                  timerMethod(cnt);
-                }
+                //       // Bob
+                //       if (cnt == 2) {
+                //         containerLeft = 0.37;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = 0.17;
+                //         messageText = AppLocalizations.of(context)!.bobIntro;
+                //       }
+                //       // Eve
+                //       else if (cnt == 3) {
+                //         containerLeft = 0.25;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = -0.02;
+                //         messageText = AppLocalizations.of(context)!.eveIntro;
+                //       } else if (cnt == 4) {
+                //         containerLeft = 0.37;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = 0.17;
+                //         messageText = AppLocalizations.of(context)!.appDesc0;
+                //       }
+                //       // Alice
+                //       else if (cnt == 5) {
+                //         containerLeft = 0.07;
+                //         containerWidth = 0.6;
+                //         contaienrSec = 1000;
+                //         xShape = -0.22;
+                //         messageText = AppLocalizations.of(context)!.appDesc1;
+                //       } else if (cnt == 6) {
+                //         containerLeft = 0.37;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = 0.17;
+                //         messageText = AppLocalizations.of(context)!.appDesc2;
+                //       } else if (cnt == 7) {
+                //         containerLeft = 0.07;
+                //         containerWidth = 0.6;
+                //         contaienrSec = 1000;
+                //         xShape = -0.22;
+                //         messageText = AppLocalizations.of(context)!.firstScene;
+                //       } else if (cnt == 8) {
+                //         containerLeft = 0.25;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = -0.02;
+                //         messageText = AppLocalizations.of(context)!.secondScene;
+                //       } else if (cnt == 9) {
+                //         containerLeft = 0.07;
+                //         containerWidth = 0.6;
+                //         contaienrSec = 1000;
+                //         xShape = -0.22;
+                //         messageText = AppLocalizations.of(context)!.thirdScene;
+                //       } else if (cnt == 10) {
+                //         containerLeft = 0.37;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = 0.17;
+                //         messageText = AppLocalizations.of(context)!.fourthScene;
+                //       } else if (cnt == 11) {
+                //         isTouchEnabled = false;
+                //         containerLeft = 0.25;
+                //         containerWidth = 0.55;
+                //         contaienrSec = 1000;
+                //         xShape = -0.02;
+                //         messageText = AppLocalizations.of(context)!.sceneStart1;
+                //         timer = Timer(const Duration(seconds: 6), () {
+                //           setState(() {
+                //             isTextVisible = false;
+                //             isScenarioBtnVisible = true;
+                //           });
+                //         });
+                //       }
+                //     },
+                //   );
+                //   timerMethod(cnt);
+                // }
               },
               mouseCursor: SystemMouseCursors.basic,
               child: AnimatedOpacity(
@@ -521,7 +701,7 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                             opacity: 1.0,
                             duration: const Duration(microseconds: 1),
                             child: Image.asset(
-                              'assets/EveDH.jpeg',
+                              'assets/mallory.jpeg',
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -543,6 +723,7 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                   onPressed: () {
                                     setState(
                                       () {
+                                        isIntroStarted = true;
                                         isTouchEnabled = true;
                                         isTextVisible = true;
                                         sec = 150;
@@ -552,10 +733,9 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                           containerWidth = 0.6;
                                           contaienrSec = 500;
                                           xShape = -0.22;
-                                          // messageText =
-                                          //     AppLocalizations.of(context)!
-                                          //         .aliceIntro;
-                                          messageText = 'test';
+                                          messageText =
+                                              AppLocalizations.of(context)!
+                                                  .aliceIntro;
                                         }
                                         isClicked = true;
                                       },
@@ -579,8 +759,7 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                   ),
                                   child: FittedBox(
                                     child: Text(
-                                      // AppLocalizations.of(context)!.introStart,
-                                      'test',
+                                      AppLocalizations.of(context)!.introStart,
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   ),
@@ -670,8 +849,7 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                   ),
                                   child: FittedBox(
                                     child: Text(
-                                      // AppLocalizations.of(context)!.sceneStart2,
-                                      'test',
+                                      AppLocalizations.of(context)!.sceneStart2,
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   ),
@@ -853,6 +1031,8 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                     contaienrSec = 0;
                                     xShape = 0.0;
                                     messageText = '';
+                                    isLastIndex = [false, true];
+                                    isIntroStarted = false;
 
                                     globalOacity = 1.0;
                                     isTextVisible = false;
@@ -872,6 +1052,69 @@ class IntroState extends State<Intro> with WidgetsBindingObserver {
                                   AppLocalizations.of(context)!.reset,
                                 ),
                               ),
+                            ),
+                          ),
+                        ),
+                        // Right-Button
+                        Positioned(
+                          right: MediaQuery.of(context).size.width * 0.01,
+                          bottom: MediaQuery.of(context).size.height * 0.02,
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: FloatingActionButton(
+                            tooltip:
+                                AppLocalizations.of(context)!.toolTipRightBtn,
+                            backgroundColor: isLastIndex[0] || !isIntroStarted
+                                ? Colors.grey
+                                : Colors.blue,
+                            heroTag: "right9",
+                            onPressed: () {
+                              setState(
+                                () {
+                                  if (!isLastIndex[0] && isIntroStarted) {
+                                    isLastIndex[1] = false;
+                                    increment();
+                                  }
+
+                                  // if (videoButton == false) {
+                                  //   videoTimerSlide4DH.cancel();
+                                  // }
+                                  // videoButton = true;
+                                  // increment();
+                                },
+                              );
+                            },
+                            child: Icon(Icons.arrow_forward,
+                                size:
+                                    MediaQuery.of(context).size.height * 0.06),
+                          ),
+                        ),
+
+                        // Left-Button
+                        Positioned(
+                          left: MediaQuery.of(context).size.width * 0.01,
+                          bottom: MediaQuery.of(context).size.height * 0.02,
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: FloatingActionButton(
+                            tooltip:
+                                AppLocalizations.of(context)!.toolTipLeftBtn,
+                            backgroundColor: isLastIndex[1] || !isIntroStarted
+                                ? Colors.grey
+                                : Colors.blue,
+                            heroTag: "left9",
+                            onPressed: () {
+                              setState(
+                                () {
+                                  if (!isLastIndex[1] && isIntroStarted) {
+                                    decrement();
+                                  }
+                                },
+                              );
+                            },
+                            child: Icon(
+                              Icons.arrow_back,
+                              size: MediaQuery.of(context).size.height * 0.06,
                             ),
                           ),
                         ),

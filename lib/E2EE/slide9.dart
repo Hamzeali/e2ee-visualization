@@ -779,7 +779,7 @@ class Slide9State extends State<Slide9> with SingleTickerProviderStateMixin {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'test',
+                    AppLocalizations.of(context)!.message,
                     // context.watch<LanguageProvider>().selectedLanguage == true
                     //     ? 'Nachricht'
                     //     : 'Message',
@@ -808,10 +808,11 @@ class Slide9State extends State<Slide9> with SingleTickerProviderStateMixin {
               0.3,
               0.3,
               true,
-              'assets/alice-cloud-text1-english.jpeg',
+              // 'assets/alice-cloud-text1-english.jpeg',
               // context.watch<LanguageProvider>().selectedLanguage == true
-              //     ? 'assets/alice-cloud-text1.jpeg'
-              //     : 'assets/alice-cloud-text1-english.jpeg',
+              Global.locale == 'de'
+                  ? 'assets/alice-cloud-text1.jpeg'
+                  : 'assets/alice-cloud-text1-english.jpeg',
               BoxFit.fill,
               seconds,
               HomePageE2EEState.returnAppBar[1],
@@ -834,10 +835,10 @@ class Slide9State extends State<Slide9> with SingleTickerProviderStateMixin {
               0.3,
               0.3,
               true,
-              'assets/alice-cloud-text2-english.jpeg',
               // context.watch<LanguageProvider>().selectedLanguage == true
-              //     ? 'assets/alice-cloud-text2.jpeg'
-              //     : 'assets/alice-cloud-text2-english.jpeg',
+              Global.locale == 'de'
+                  ? 'assets/alice-cloud-text2.jpeg'
+                  : 'assets/alice-cloud-text2-english.jpeg',
               BoxFit.fill,
               seconds,
               HomePageE2EEState.returnAppBar[1],
@@ -883,10 +884,10 @@ class Slide9State extends State<Slide9> with SingleTickerProviderStateMixin {
               0.3,
               0.3,
               true,
-              'assets/bob-cloud-text1-english.jpeg',
               // context.watch<LanguageProvider>().selectedLanguage == true
-              //     ? 'assets/bob-cloud-text1.jpeg'
-              //     : 'assets/bob-cloud-text1-english.jpeg',
+              Global.locale == 'de'
+                  ? 'assets/bob-cloud-text1.jpeg'
+                  : 'assets/bob-cloud-text1-english.jpeg',
               BoxFit.fill,
               seconds,
               HomePageE2EEState.returnAppBar[1],
@@ -909,10 +910,10 @@ class Slide9State extends State<Slide9> with SingleTickerProviderStateMixin {
               0.3,
               0.3,
               true,
-              'assets/bob-cloud-text2-english.jpeg',
               // context.watch<LanguageProvider>().selectedLanguage == true
-              //     ? 'assets/bob-cloud-text2.jpeg'
-              //     : 'assets/bob-cloud-text2-english.jpeg',
+              Global.locale == 'de'
+                  ? 'assets/bob-cloud-text2.jpeg'
+                  : 'assets/bob-cloud-text2-english.jpeg',
               BoxFit.fill,
               seconds,
               HomePageE2EEState.returnAppBar[1],
@@ -2096,7 +2097,7 @@ class Slide9State extends State<Slide9> with SingleTickerProviderStateMixin {
           TextButton(
             onPressed: () {
               Navigator.pop(context, 'Yes');
-              HomePageE2EEState.controller.animateTo(isLeft ? 1 : 3);
+              HomePageE2EEState.controller.animateTo(isLeft ? 7 : 9);
             },
             child: Text(AppLocalizations.of(context)!.yes),
           ),

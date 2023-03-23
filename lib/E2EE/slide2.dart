@@ -991,7 +991,7 @@ class Slide2State extends State<Slide2> with SingleTickerProviderStateMixin {
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
-                      'test',
+                      AppLocalizations.of(context)!.inboxServer,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -1023,7 +1023,7 @@ class Slide2State extends State<Slide2> with SingleTickerProviderStateMixin {
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.postausgangsserver
                       //     : DescListEnglish.outgoingMailServer,
-                      'test',
+                      AppLocalizations.of(context)!.outgoingMailServer,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -1055,7 +1055,7 @@ class Slide2State extends State<Slide2> with SingleTickerProviderStateMixin {
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
-                      'test',
+                      AppLocalizations.of(context)!.inboxServer,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -1088,7 +1088,7 @@ class Slide2State extends State<Slide2> with SingleTickerProviderStateMixin {
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
-                      'test',
+                      AppLocalizations.of(context)!.outgoingMailServer,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -1121,7 +1121,7 @@ class Slide2State extends State<Slide2> with SingleTickerProviderStateMixin {
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.weiterleitungsserver
                       //     : DescListEnglish.forwardingServer,
-                      'test',
+                      AppLocalizations.of(context)!.forwardingServer,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
@@ -2221,7 +2221,7 @@ class Slide2State extends State<Slide2> with SingleTickerProviderStateMixin {
           TextButton(
             onPressed: () {
               Navigator.pop(context, 'Yes');
-              HomePageE2EEState.controller.animateTo(isLeft ? 1 : 3);
+              HomePageE2EEState.controller.animateTo(isLeft ? 0 : 2);
             },
             child: Text(AppLocalizations.of(context)!.yes),
           ),

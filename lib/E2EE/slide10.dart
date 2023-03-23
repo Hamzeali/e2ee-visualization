@@ -725,7 +725,7 @@ class Slide10State extends State<Slide10> with SingleTickerProviderStateMixin {
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'test',
+                    AppLocalizations.of(context)!.message,
                     // context.watch<LanguageProvider>().selectedLanguage == true
                     //     ? 'Nachricht'
                     //     : 'Message',
@@ -781,10 +781,9 @@ class Slide10State extends State<Slide10> with SingleTickerProviderStateMixin {
               0.3,
               0.3,
               true,
-              'assets/alice-cloud-english.jpeg',
-              // context.watch<LanguageProvider>().selectedLanguage == true
-              //     ? 'assets/alice-cloud.jpeg'
-              //     : 'assets/alice-cloud-english.jpeg',
+              Global.locale == 'de'
+                  ? 'assets/alice-cloud.jpeg'
+                  : 'assets/alice-cloud-english.jpeg',
               BoxFit.fill,
               seconds,
               HomePageE2EEState.returnAppBar[1],
@@ -830,10 +829,9 @@ class Slide10State extends State<Slide10> with SingleTickerProviderStateMixin {
               0.3,
               0.3,
               true,
-              'assets/bob-cloud-english.jpeg',
-              // context.watch<LanguageProvider>().selectedLanguage == true
-              //     ? 'assets/bob-cloud.jpeg'
-              //     : 'assets/bob-cloud-english.jpeg',
+              Global.locale == 'de'
+                  ? 'assets/bob-cloud.jpeg'
+                  : 'assets/bob-cloud-english.jpeg',
               BoxFit.fill,
               seconds,
               HomePageE2EEState.returnAppBar[1],
@@ -1864,7 +1862,7 @@ class Slide10State extends State<Slide10> with SingleTickerProviderStateMixin {
   stepNumber() {
     bool isFinished = false;
     setState(() {
-      finishTimer = Timer.periodic(const Duration(milliseconds: 51), (finish) {
+      finishTimer = Timer.periodic(const Duration(milliseconds: 55), (finish) {
         setState(() {
           if (!isFinished) {
             stopFunction();
@@ -1999,7 +1997,7 @@ class Slide10State extends State<Slide10> with SingleTickerProviderStateMixin {
           TextButton(
             onPressed: () {
               Navigator.pop(context, 'Yes');
-              HomePageE2EEState.controller.animateTo(isLeft ? 1 : 3);
+              HomePageE2EEState.controller.animateTo(isLeft ? 8 : 10);
             },
             child: Text(AppLocalizations.of(context)!.yes),
           ),

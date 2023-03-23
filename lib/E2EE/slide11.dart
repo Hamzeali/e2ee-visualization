@@ -56,10 +56,9 @@ class Slide11State extends State<Slide11> with SingleTickerProviderStateMixin {
             child: SafeArea(
               child: Container(
                 child: Image.asset(
-                  'assets/slide11-english.jpeg',
-                  // context.watch<LanguageProvider>().selectedLanguage == true
-                  //     ? 'assets/slide11.jpeg'
-                  //     : 'assets/slide11-english.jpeg',
+                  Global.locale == 'de'
+                      ? 'assets/slide11.jpeg'
+                      : 'assets/slide11-english.jpeg',
                   fit: BoxFit.fill,
                 ),
               ),

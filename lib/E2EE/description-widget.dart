@@ -117,7 +117,7 @@ class DescriptionState extends State<Description> {
                                   )
                                 : SingleChildScrollView(
                                     controller: scrollController,
-                                    child: Text(
+                                    child: SelectableText(
                                       widget.descVisibility ? widget.desc : '',
                                       style: TextStyle(
                                         color: Colors.white,
@@ -168,7 +168,7 @@ class DescriptionState extends State<Description> {
                                               0.02,
                                     ),
                                   )
-                                : Text(
+                                : SelectableText(
                                     widget.descVisibility ? widget.desc : '',
                                     style: TextStyle(
                                       color: Colors.white,

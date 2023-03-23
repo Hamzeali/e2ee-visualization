@@ -777,7 +777,7 @@ class Slide6State extends State<Slide6> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.inboxServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
@@ -809,7 +809,7 @@ class Slide6State extends State<Slide6> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.outgoingMailServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.postausgangsserver
                       //     : DescListEnglish.forwardingServer,
@@ -841,7 +841,7 @@ class Slide6State extends State<Slide6> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.inboxServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
@@ -874,7 +874,7 @@ class Slide6State extends State<Slide6> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.outgoingMailServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
@@ -907,7 +907,7 @@ class Slide6State extends State<Slide6> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.forwardingServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.weiterleitungsserver
                       //     : DescListEnglish.forwardingServer,

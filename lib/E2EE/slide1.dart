@@ -290,6 +290,10 @@ class Slide1State extends State<Slide1>
     videoButton = true;
     timerSeconds = 3;
     contentVisibility.clear();
+    settingsVideoButton = 0.13;
+    settingsStopButton = 0.13;
+    advancedSettingsButton = 0.13;
+    settingButton = true;
     // isLastIndex = [false, true];
     // indexVisibilitySilde1 = 0;
     // pageController1 = TextEditingController()..text = (0).toString();
@@ -345,25 +349,44 @@ class Slide1State extends State<Slide1>
   }
 
   String translate(BuildContext ctx, indexVisibility) {
-    // switch (indexVisibility) {
-    //   case 1:
-    //     return AppLocalizations.of(ctx)!.slide1Item0;
-    //   case 2:
-    //     return AppLocalizations.of(ctx)!.slide1Item1;
-    //   case 3:
-    //     return AppLocalizations.of(ctx)!.slide1Item2;
-    //   case 4:
-    //     return AppLocalizations.of(ctx)!.slide1Item3;
-    //   case 5:
-    //     return AppLocalizations.of(ctx)!.slide1Item4;
-    //   case 6:
-    //     return AppLocalizations.of(ctx)!.slide1Item5;
-    //   case 7:
-    //     return AppLocalizations.of(ctx)!.slide1Item6;
-    //   default:
-    //     return "";
-    // }
-    return "";
+    switch (indexVisibility) {
+      case 1:
+        return AppLocalizations.of(ctx)!.slide1Item0;
+      case 2:
+        return AppLocalizations.of(ctx)!.slide1Item1;
+      case 3:
+        return AppLocalizations.of(ctx)!.slide1Item2;
+      case 4:
+        return AppLocalizations.of(ctx)!.slide1Item3;
+      case 5:
+        return AppLocalizations.of(ctx)!.slide1Item4;
+      case 6:
+        return AppLocalizations.of(ctx)!.slide1Item5;
+      case 7:
+        return AppLocalizations.of(ctx)!.slide1Item6;
+      case 8:
+        return AppLocalizations.of(ctx)!.slide1Item7;
+      case 9:
+        return AppLocalizations.of(ctx)!.slide1Item8;
+      case 10:
+        return AppLocalizations.of(ctx)!.slide1Item9;
+      case 11:
+        return AppLocalizations.of(ctx)!.slide1Item10;
+      case 12:
+        return AppLocalizations.of(ctx)!.slide1Item11;
+      case 13:
+        return AppLocalizations.of(ctx)!.slide1Item12;
+      case 14:
+        return AppLocalizations.of(ctx)!.slide1Item13;
+      case 15:
+        return AppLocalizations.of(ctx)!.slide1Item14;
+      case 16:
+        return AppLocalizations.of(ctx)!.slide1Item15;
+      case 17:
+        return AppLocalizations.of(ctx)!.slide1Item16;
+      default:
+        return "";
+    }
   }
 
   Positioned bulletPosition(
@@ -911,8 +934,9 @@ class Slide1State extends State<Slide1>
                         // context.watch<LanguageProvider>().selectedLanguage == true
                         //     ? DescList.posteingangsserver
                         //     : DescListEnglish.inboxServer,
-                        'Inbox Server',
-                        style: TextStyle(
+                        // 'Inbox Server',
+                        AppLocalizations.of(context)!.inboxServer,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -943,8 +967,9 @@ class Slide1State extends State<Slide1>
                         // context.watch<LanguageProvider>().selectedLanguage == true
                         //     ? DescList.postausgangsserver
                         //     : DescListEnglish.outgoingMailServer,
-                        'Inbox Server',
-                        style: TextStyle(
+                        // 'Inbox Server',
+                        AppLocalizations.of(context)!.outgoingMailServer,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -975,8 +1000,9 @@ class Slide1State extends State<Slide1>
                         // context.watch<LanguageProvider>().selectedLanguage == true
                         //     ? DescList.posteingangsserver
                         //     : DescListEnglish.inboxServer,
-                        'Inbox Server',
-                        style: TextStyle(
+                        // 'Inbox Server',
+                        AppLocalizations.of(context)!.inboxServer,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1008,8 +1034,9 @@ class Slide1State extends State<Slide1>
                         // context.watch<LanguageProvider>().selectedLanguage == true
                         //     ? DescList.posteingangsserver
                         //     : DescListEnglish.inboxServer,
-                        'Inbox Server',
-                        style: TextStyle(
+                        // 'Inbox Server',
+                        AppLocalizations.of(context)!.outgoingMailServer,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1041,8 +1068,9 @@ class Slide1State extends State<Slide1>
                         // context.watch<LanguageProvider>().selectedLanguage == true
                         //     ? DescList.weiterleitungsserver
                         //     : DescListEnglish.forwardingServer,
-                        'Inbox Server',
-                        style: TextStyle(
+                        // 'Inbox Server',
+                        AppLocalizations.of(context)!.forwardingServer,
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -1063,7 +1091,7 @@ class Slide1State extends State<Slide1>
               height: MediaQuery.of(context).size.height * 0.04,
               child: Container(
                 padding: EdgeInsets.only(right: 4.0, left: 4.0),
-                child: Center(
+                child: const Center(
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(

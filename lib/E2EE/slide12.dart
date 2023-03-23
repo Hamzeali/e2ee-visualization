@@ -160,25 +160,30 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
   }
 
   String translate(BuildContext ctx, indexVisibility) {
-    // switch (indexVisibility) {
-    //   case 1:
-    //     return AppLocalizations.of(ctx)!.slide1Item0;
-    //   case 2:
-    //     return AppLocalizations.of(ctx)!.slide1Item1;
-    //   case 3:
-    //     return AppLocalizations.of(ctx)!.slide1Item2;
-    //   case 4:
-    //     return AppLocalizations.of(ctx)!.slide1Item3;
-    //   case 5:
-    //     return AppLocalizations.of(ctx)!.slide1Item4;
-    //   case 6:
-    //     return AppLocalizations.of(ctx)!.slide1Item5;
-    //   case 7:
-    //     return AppLocalizations.of(ctx)!.slide1Item6;
-    //   default:
-    //     return "";
-    // }
-    return "";
+    switch (indexVisibility) {
+      case 0:
+        return AppLocalizations.of(ctx)!.slide12Item0;
+      case 1:
+        return AppLocalizations.of(ctx)!.slide12Item1;
+      case 2:
+        return AppLocalizations.of(ctx)!.slide12Item2;
+      case 3:
+        return AppLocalizations.of(ctx)!.slide12Item3;
+      case 4:
+        return AppLocalizations.of(ctx)!.slide12Item4;
+      case 5:
+        return AppLocalizations.of(ctx)!.slide12Item5;
+      case 6:
+        return AppLocalizations.of(ctx)!.slide12Item6;
+      case 7:
+        return AppLocalizations.of(ctx)!.slide12Item7;
+      case 8:
+        return AppLocalizations.of(ctx)!.slide12Item8;
+      case 9:
+        return AppLocalizations.of(ctx)!.slide12Item9;
+      default:
+        return "";
+    }
   }
 
   Timer selectPageNumber(int a, int sec) {
@@ -300,7 +305,7 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
               openDialog(false);
             }
 
-            if (indexVisibilitySlide12 < 11 && delay) {
+            if (indexVisibilitySlide12 < 10 && delay) {
               indexVisibilitySlide12++;
               stepsVisibility[0] = !stepsVisibility[0];
               stepsVisibility[1] = !stepsVisibility[1];
@@ -418,7 +423,7 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
       settingsButtonDuration = 0;
       checkSettingsDuration = 0;
     }
-
+    text = translate(context, indexVisibilitySlide12);
     return InteractiveViewer(
       panEnabled: true,
       maxScale: 4,
@@ -908,13 +913,13 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
                     openDialog(false);
                   }
 
-                  if (indexVisibilitySlide12 < 11 && delay) {
+                  if (indexVisibilitySlide12 < 10 && delay) {
                     indexVisibilitySlide12++;
                     stepsVisibility[0] = !stepsVisibility[0];
                     stepsVisibility[1] = !stepsVisibility[1];
                     pageController1 = TextEditingController()
                       ..text = (indexVisibilitySlide12 + 1).toString();
-                    if (indexVisibilitySlide12 == 10) {
+                    if (indexVisibilitySlide12 == 9) {
                       isLastIndex[0] = true;
                     }
                   }
@@ -1146,6 +1151,7 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
                     delayTimer = Timer(Duration(seconds: seconds), () {
                       setState(() {
                         indexVisibilitySlide12--;
+                        isLastIndex[0] = false;
                         pageController1 = TextEditingController()
                           ..text = (indexVisibilitySlide12 + 1).toString();
                         // if (Languages.selectedLanguage)
@@ -1607,7 +1613,7 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
                     numberPageDialog();
                   },
                   child: Text(
-                    '${indexVisibilitySlide12 + 1} / 11',
+                    '${indexVisibilitySlide12 + 1} / 10',
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -1702,7 +1708,7 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
                 videoButton = true;
                 seconds = Global.slider;
               });
-              if ((int.parse(pageController1.text) > 11) ||
+              if ((int.parse(pageController1.text) > 10) ||
                   (int.parse(pageController1.text) < 0)) {
                 showFlushBarMessage(
                     const Icon(
@@ -1877,7 +1883,7 @@ class Slide12State extends State<Slide12> with SingleTickerProviderStateMixin {
           TextButton(
             onPressed: () {
               Navigator.pop(context, 'Yes');
-              HomePageE2EEState.controller.animateTo(isLeft ? 1 : 3);
+              HomePageE2EEState.controller.animateTo(isLeft ? 10 : 12);
             },
             child: Text(AppLocalizations.of(context)!.yes),
           ),

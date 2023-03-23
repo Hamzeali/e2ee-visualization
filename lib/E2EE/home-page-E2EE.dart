@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 import 'about.dart';
+import 'aboutApp.dart';
 import 'slide1.dart';
 import 'slide10.dart';
 import 'slide11.dart';
@@ -124,16 +125,22 @@ class HomePageE2EEState extends State<HomePageE2EE>
             itemBuilder: (context) {
               return [
                 PopupMenuItem<int>(
-                    value: 0,
-                    child: Text(
-                        'What is E2EE?') //AppLocalizations.of(context)!.dhke),
-                    ),
+                  value: 0,
+                  child: Text(AppLocalizations.of(context)!.e2ee),
+                ),
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: Text(AppLocalizations.of(context)!.aboutApp),
+                ),
               ];
             },
             onSelected: (value) {
               if (value == 0) {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => const About()));
+              } else {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const AboutApp()));
               }
             },
           ),
@@ -147,12 +154,42 @@ class HomePageE2EEState extends State<HomePageE2EE>
             fit: BoxFit.fitWidth,
             child: Text(
               tabIndex == 0
-                  ? 'Scene 1' //AppLocalizations.of(context)!.slide1
+                  ? AppLocalizations.of(context)!.slide1
                   : tabIndex == 1
-                      ? 'Scene 2' //AppLocalizations.of(context)!.slide2
+                      ? AppLocalizations.of(context)!.slide2
                       : tabIndex == 2
-                          ? 'Scene 3' //AppLocalizations.of(context)!.slide3
-                          : 'Scene 4', //AppLocalizations.of(context)!.slide4,
+                          ? AppLocalizations.of(context)!.slide3
+                          : tabIndex == 3
+                              ? AppLocalizations.of(context)!.slide4
+                              : tabIndex == 4
+                                  ? AppLocalizations.of(context)!.slide5
+                                  : tabIndex == 5
+                                      ? AppLocalizations.of(context)!.slide6
+                                      : tabIndex == 6
+                                          ? AppLocalizations.of(context)!.slide7
+                                          : tabIndex == 7
+                                              ? AppLocalizations.of(context)!
+                                                  .slide8
+                                              : tabIndex == 8
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .slide9
+                                                  : tabIndex == 9
+                                                      ? AppLocalizations.of(
+                                                              context)!
+                                                          .slide10
+                                                      : tabIndex == 10
+                                                          ? AppLocalizations.of(
+                                                                  context)!
+                                                              .slide11
+                                                          : tabIndex == 11
+                                                              ? AppLocalizations
+                                                                      .of(
+                                                                          context)!
+                                                                  .slide12
+                                                              : AppLocalizations
+                                                                      .of(context)!
+                                                                  .slide3,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

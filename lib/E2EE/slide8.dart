@@ -182,25 +182,32 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
   }
 
   String translate(BuildContext ctx, indexVisibility) {
-    // switch (indexVisibility) {
-    //   case 1:
-    //     return AppLocalizations.of(ctx)!.slide1Item0;
-    //   case 2:
-    //     return AppLocalizations.of(ctx)!.slide1Item1;
-    //   case 3:
-    //     return AppLocalizations.of(ctx)!.slide1Item2;
-    //   case 4:
-    //     return AppLocalizations.of(ctx)!.slide1Item3;
-    //   case 5:
-    //     return AppLocalizations.of(ctx)!.slide1Item4;
-    //   case 6:
-    //     return AppLocalizations.of(ctx)!.slide1Item5;
-    //   case 7:
-    //     return AppLocalizations.of(ctx)!.slide1Item6;
-    //   default:
-    //     return "";
-    // }
-    return "";
+    switch (indexVisibility) {
+      case 0:
+        return AppLocalizations.of(ctx)!.slide8Item0;
+      case 1:
+        return AppLocalizations.of(ctx)!.slide8Item1;
+      case 2:
+        return AppLocalizations.of(ctx)!.slide8Item2;
+      case 3:
+        return AppLocalizations.of(ctx)!.slide8Item3;
+      case 4:
+        return AppLocalizations.of(ctx)!.slide8Item4;
+      case 5:
+        return AppLocalizations.of(ctx)!.slide8Item5;
+      case 6:
+        return AppLocalizations.of(ctx)!.slide8Item6;
+      case 7:
+        return AppLocalizations.of(ctx)!.slide8Item7;
+      case 8:
+        return AppLocalizations.of(ctx)!.slide8Item8;
+      case 9:
+        return AppLocalizations.of(ctx)!.slide8Item9;
+      case 10:
+        return AppLocalizations.of(ctx)!.slide8Item10;
+      default:
+        return "";
+    }
   }
 
   Timer selectPageNumber(int a, int sec) {
@@ -447,6 +454,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
       settingsButtonDuration = 0;
       checkSettingsDuration = 0;
     }
+    text = translate(context, indexVisibilitySlide8);
     return InteractiveViewer(
       panEnabled: true,
       maxScale: 4,
@@ -843,7 +851,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.inboxServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
@@ -875,7 +883,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.outgoingMailServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.postausgangsserver
                       //     : DescListEnglish.outgoingMailServer,
@@ -907,7 +915,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.inboxServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
@@ -940,7 +948,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.outgoingMailServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.posteingangsserver
                       //     : DescListEnglish.inboxServer,
@@ -973,7 +981,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      'test',
+                      AppLocalizations.of(context)!.forwardingServer,
                       // context.watch<LanguageProvider>().selectedLanguage == true
                       //     ? DescList.weiterleitungsserver
                       //     : DescListEnglish.forwardingServer,
@@ -2051,7 +2059,7 @@ class Slide8State extends State<Slide8> with SingleTickerProviderStateMixin {
           TextButton(
             onPressed: () {
               Navigator.pop(context, 'Yes');
-              HomePageE2EEState.controller.animateTo(isLeft ? 1 : 3);
+              HomePageE2EEState.controller.animateTo(isLeft ? 6 : 8);
             },
             child: Text(AppLocalizations.of(context)!.yes),
           ),

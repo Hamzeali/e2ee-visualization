@@ -1,16 +1,3 @@
 # e2ee_visualization
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This work is about the implementation of a didactic application that visualizes the “End-to-End Encryption”. The goal of this work is to describe this cryptographic process in a simple way to understand how it can be established between two parties. The process is visualized using “Flutter” technology.
